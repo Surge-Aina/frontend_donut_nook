@@ -1,0 +1,28 @@
+/* Global styles — modify sparingly */
+/* Use Tailwind for most styling; this is for overrides */
+
+/* This is to be approved by Rimma only,feel free to add any changes */
+/* Do not make changes in the files which are approved, please ask for permisions and access from Rimma, 
+    if new code is added please add the comment <Not Approved> */
+
+/*
+This sections should look like this when approved: by Rimma
+  body {  /*Approved/
+    margin: 0;
+    font-family: 'Inter', sans-serif;
+    background-color: #fff7f0;
+  } 
+*/
+body {/*Not Approved*/
+    margin: 0;
+    font-family: 'Inter', sans-serif;
+    background-color: #fff7f0;
+  }
+  
+  a {/*Not Approved*/
+    text-decoration: none;
+    color: inherit;
+  }
+  
+  /* interns: add utilities or overrides here, avoid lengthy rules */
+  
