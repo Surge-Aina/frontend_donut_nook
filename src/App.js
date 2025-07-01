@@ -32,12 +32,16 @@ import Auth from './pages/login/Auth';
 // Protected route wrapper
 import ProtectedRoute from './components/ProtectedRoute';
 import Test from './pages/Test';
+import Layout from './components/Layout';
 
 
 const App = () => (
   <BrowserRouter>
     <Routes>
       <Route path="/" element={<Navigate to="/home" />} />
+     
+
+
 
       {/* Public */}
       <Route path="/home" element={<Home />} />
@@ -65,7 +69,9 @@ const App = () => (
         <ProtectedRoute requireRole="manager"><ManagerStore/></ProtectedRoute>
       } />
       <Route path="/manager/dashboard" element={
-        <ProtectedRoute requireRole="manager"><ManagerDashboard/></ProtectedRoute>
+        <ProtectedRoute requireRole="manager">
+          <ManagerDashboard/>
+          </ProtectedRoute>
       } />
 
       {/* Admin-only */}
