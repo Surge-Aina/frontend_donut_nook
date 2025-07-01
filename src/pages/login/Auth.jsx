@@ -42,7 +42,7 @@ const Auth = () => {
         : { email: form.email, password: form.password };
 
       const { data } = await axios.post(
-        `http://localhost:5100/users/${endpoint}`,
+        `${process.env.REACT_APP_API_BASE_URL}/users/${endpoint}`,
         payload
       );
 
