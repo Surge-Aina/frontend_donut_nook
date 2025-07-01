@@ -1,6 +1,6 @@
 // src/pages/login/Auth.jsx
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import api from '../../utils/api';
 import { setCookie, getCookie } from '../../components/CookieManager';
 import { useNavigate } from 'react-router-dom';
 
@@ -41,8 +41,10 @@ const Auth = () => {
         ? { name: form.name, email: form.email, password: form.password }
         : { email: form.email, password: form.password };
 
-      const { data } = await axios.post(
-        `${process.env.REACT_APP_API_BASE_URL}/users/${endpoint}`,
+      console.log('🚀 Making API call to:', `/users/${endpoint}`, 'with payload:', { ...payload, password: '***' });
+      
+      const { data } = await api.post(
+        `/users/${endpoint}`,
         payload
       );
 
