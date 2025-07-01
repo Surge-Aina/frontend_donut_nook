@@ -1,13 +1,20 @@
-// Simple cookie utils —  can extend for more features
-export function getCookie(name) {
-    const match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
-    return match ? decodeURIComponent(match[2]) : null;
+// src/components/CookieManager.js
+// Simple cookie utilities
+
+export function setCookie(name, value, days = 7) {
+    const d = new Date();
+    d.setTime(d.getTime() + days * 24 * 60 * 60 * 1000);
+    document.cookie = `${name}=${encodeURIComponent(value)};path=/;expires=${d.toUTCString()}`;
   }
   
-  export function setCookie(name, value, days = 365) {
-    const expires = new Date(Date.now() + days*864e5).toUTCString();
-    document.cookie = `${name}=${encodeURIComponent(value)}; path=/; expires=${expires}`;
+  export function getCookie(name) {
+    return document.cookie.split('; ').reduce((r, v) => {
+      const [key, val] = v.split('=');
+      return key === name ? decodeURIComponent(val) : r;
+    }, '');
   }
   
-  // DO NOT use localStorage for auth; cookies required for backend tracking
+  export function eraseCookie(name) {
+    document.cookie = `${name}=; Max-Age=0; path=/`;
+  }
   

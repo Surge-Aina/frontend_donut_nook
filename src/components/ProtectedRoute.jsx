@@ -1,16 +1,19 @@
-// Guards routes by role: implement actual auth logic
+// src/components/ProtectedRoute.jsx
 import React from 'react';
 import { Navigate } from 'react-router-dom';
+import { getCookie } from './CookieManager';
 
 const ProtectedRoute = ({ children, requireRole }) => {
-  const userRole = 'customer'; // TODO: replace with real auth state
+  const token = getCookie('token');
+  const role = getCookie('role');
 
-  if (requireRole && userRole !== requireRole) {
+  if (!token) {
+    return <Navigate to="/login" />;
+  }
+  if (requireRole && role !== requireRole) {
     return <Navigate to="/login" />;
   }
   return children;
 };
 
 export default ProtectedRoute;
-
-// interns: hook this into App.js routes for /admin and /manager
