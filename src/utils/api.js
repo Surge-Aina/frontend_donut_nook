@@ -1,10 +1,8 @@
-// Central API helper: should add functions here for backend calls
-const API_BASE = process.env.REACT_APP_API_BASE_URL;
+import axios from 'axios';
 
-// Example helper — interns, add more as needed:
-export async function getPing() {
-  return fetch(`${API_BASE}/test/ping`)
-    .then(res => res.json());
-}
+const api = axios.create({
+  baseURL: process.env.REACT_APP_API_BASE_URL,
+  withCredentials: true
+});
 
-// DO NOT hardcode URLs elsewhere; always use this file
+export default api;
