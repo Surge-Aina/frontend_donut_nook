@@ -4,7 +4,7 @@
 /* Use Tailwind for most styling; this is for overrides */
 
 
-/* This is to be approved by Rimma only, feel free to add any changes */
+
 
 
 /* Do not make changes in the files which are approved, please ask for permisions and access from Rimma, 
@@ -20,6 +20,11 @@ This sections should look like this when approved: by Rimma
   } 
 */
 
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 @import url('https://fonts.googleapis.com/css2?family=Luckiest+Guy&family=Montserrat:wght@400;700&family=Playfair+Display:wght@700&display=swap');
 body {
     /*Approved*/
@@ -34,12 +39,15 @@ a {
     color: inherit;
 }
 
+
 h1,
 h2,
 h3,
 h4,
 h5,
 h6 {
+
+
     /*Approved*/
     margin: 0;
     color: #392504;
@@ -49,6 +57,7 @@ h6 {
     font-family: 'Luckiest Guy', 'Comic Sans MS', 'Comic Sans', Arial, sans-serif;
 }
 
+
 @media (min-width: 640px) {
     /*Approved*/
     h1,
@@ -57,10 +66,12 @@ h6 {
     h4,
     h5,
     h6 {
+
         /* larger on tablets/desktops */
         font-size: 2rem;
     }
 }
+
 
 button {
     /*Approved*/
@@ -102,6 +113,32 @@ select {
 }
 
 
+
+.nav-link {
+    /*Approved*/
+    position: relative;
+    font-weight: 500;
+    cursor: pointer;
+    transition: color 0.15s;
+    padding-bottom: 2px;
+}
+
+.nav-link:hover,
+.nav-link:focus {
+    /*Approved*/
+    text-decoration: underline;
+    color: #392504;
+}
+
+.nav-link.active {
+    /*Approved*/
+    font-weight: 700;
+    color: #392504;
+    text-decoration: underline;
+}
+
+
+
 /* For accessibility */
 
 input:focus,
@@ -122,6 +159,11 @@ label {
     font-size: 1rem;
 }
 
+
+
+/* Login/Signup container styles */
+
+
 .centered-container {
     /*Approved*/
     min-height: 100vh;
@@ -135,7 +177,10 @@ label {
 
 /* Everything below is Approved but might be moved from global later*/
 
+
 .auth-box {
+    /*Approved*/
+
     width: 100%;
     max-width: 400px;
     background: rgb(255, 252, 252);
@@ -152,6 +197,9 @@ label {
 .auth-box input,
 .auth-box button,
 .auth-box form button {
+
+    /*Approved*/
+
     width: 100%;
     max-width: 320px;
     margin: 0.5em auto;
@@ -159,6 +207,9 @@ label {
 }
 
 .auth-box form {
+
+    /*Approved*/
+
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -166,17 +217,126 @@ label {
 }
 
 .auth-box .mt-4 {
+
+    /*Approved*/
+
     padding-top: 1rem;
     border-top: 1px solid #f3f4f6;
     width: 100%;
 }
 
 @media (min-width: 480px) {
+
+    /*Approved*/
+
     .auth-box {
         padding: 32px 32px;
         margin: 32px auto;
     }
 }
 
-
 /* interns: add utilities or overrides here, avoid lengthy rules */
+
+/************************************************
+ * Menu page styles - IN PROGRESS
+ * 
+ * this section is for the Menu page styles.
+ * it includes the main container, tabs, and menu item containers.
+ * 
+ * Note: this is a work in progress and will be updated as needed.
+ ************************************************/
+
+
+/* Menu PAGE container */
+
+.menu-page-container {
+    /*In Progress*/
+    width: 90vw;
+    max-width: 1100px;
+    min-width: 320px;
+    background: #FFF7F0;
+    border-radius: 20px;
+    padding: 0 0 32px 0;
+    margin: 48px auto;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    position: relative;
+    border: 2px solid #392504;
+    overflow: hidden;
+}
+
+
+/* Menu TABS styles */
+
+.menu-tabs {
+    /*In Progress*/
+    display: flex;
+    gap: 8px;
+    padding: 0 32px;
+    margin-bottom: 0;
+    background: #fff7f0;
+    border-bottom: 2px solid #392504;
+    position: relative;
+    z-index: 2;
+    min-height: 40px;
+    align-items: flex-end;
+}
+
+.menu-tab {
+    /*In Progress*/
+    background: #fffdfa;
+    border-radius: 5px 5px 0 0;
+    padding: 6px 16px 0 16px;
+    /* even shorter and less bottom padding */
+    font-weight: 700;
+    color: #392504;
+    cursor: pointer;
+    margin-bottom: 0;
+    /* remove negative margin */
+    border: 1px solid #392504;
+    border-bottom: 0;
+    position: relative;
+    top: 0;
+    /* align with bottom border */
+}
+
+.menu-tab.active {
+    /*In Progress*/
+    background: #392504;
+    color: #fffdfa;
+    border-color: #392504;
+}
+
+
+/* Menu ITEMS responsive container grid  — use in parent, not here */
+
+.menu-item-container {
+    border-radius: 16px;
+    padding: 18px 18px 14px 18px;
+    background: rgb(255, 255, 255);
+    border: 1px solid #392504;
+    box-shadow: 0 2px 8px rgba(57, 37, 4, 0.07);
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: stretch;
+    text-align: left;
+    /* note: should add max height&width once we know more abt menu items */
+    min-height: 220px;
+}
+
+.menu-item-container:hover,
+.menu-item-container:focus-within {
+    border-color: #7a4c13;
+    transform: translateY(-5px);
+}
+
+.menu-item-bottom {
+    padding-top: 8px;
+    margin-top: 8px;
+    font-size: 0.95rem;
+    color: #392504;
+}
+

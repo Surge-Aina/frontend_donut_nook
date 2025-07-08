@@ -4,6 +4,7 @@ import Layout from '../../components/Layout';
 
 const Customers = () => (
   <Layout>
+    
     <h1>Admin: Customers</h1>
     {/* TODO: fetch and display customer list */}
   </Layout>
