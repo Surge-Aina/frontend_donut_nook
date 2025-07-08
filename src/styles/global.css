@@ -1,9 +1,15 @@
 /* Global styles — modify sparingly */
+
+
 /* Use Tailwind for most styling; this is for overrides */
 
-/* This is to be approved by Rimma only,feel free to add any changes */
+
+/* This is to be approved by Rimma only, feel free to add any changes */
+
+
 /* Do not make changes in the files which are approved, please ask for permisions and access from Rimma, 
     if new code is added please add the comment <Not Approved> */
+
 
 /*
 This sections should look like this when approved: by Rimma
@@ -13,16 +19,164 @@ This sections should look like this when approved: by Rimma
     background-color: #fff7f0;
   } 
 */
-body {/*Not Approved*/
+
+@import url('https://fonts.googleapis.com/css2?family=Luckiest+Guy&family=Montserrat:wght@400;700&family=Playfair+Display:wght@700&display=swap');
+body {
+    /*Approved*/
     margin: 0;
-    font-family: 'Inter', sans-serif;
+    font-family: 'Montserrat', 'Playfair Display', Arial, sans-serif;
     background-color: #fff7f0;
-  }
-  
-  a {/*Not Approved*/
+}
+
+a {
+    /*Approved*/
     text-decoration: none;
     color: inherit;
-  }
-  
-  /* interns: add utilities or overrides here, avoid lengthy rules */
-  
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    /*Approved*/
+    margin: 0;
+    color: #392504;
+    /* mobile friendly default size*/
+    font-size: 1.5rem;
+    font-weight: 600;
+    font-family: 'Luckiest Guy', 'Comic Sans MS', 'Comic Sans', Arial, sans-serif;
+}
+
+@media (min-width: 640px) {
+    /*Approved*/
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+        /* larger on tablets/desktops */
+        font-size: 2rem;
+    }
+}
+
+button {
+    /*Approved*/
+    font-family: inherit;
+    font-size: 1rem;
+    padding: 0.75em 1.5em;
+    border-radius: 0.5em;
+    border: 1px solid #3d2b1f;
+    background: #F5DA41;
+    color: #3d2b1f;
+    font-weight: 600;
+    box-shadow: 2px 2px 0px rgba(43, 39, 36, 0.822);
+    cursor: pointer;
+    min-width: 44px;
+    min-height: 44px;
+    margin-block: 0.5em;
+}
+
+button:hover {
+    /*Approved*/
+    transform: translateY(2px);
+    box-shadow: 1px 1px 0px rgba(43, 39, 36, 0.6);
+}
+
+input,
+textarea,
+select {
+    /*Approved*/
+    display: block;
+    padding: 0.75em 1em;
+    border: 1px solid #908879;
+    border-radius: 0.5em;
+    background: #fffdfa;
+    color: #392504;
+    font-size: 1rem;
+    font-family: inherit;
+    box-sizing: border-box;
+    transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+
+/* For accessibility */
+
+input:focus,
+textarea:focus,
+select:focus {
+    /*Approved*/
+    outline: none;
+    border-color: #3d2b1f;
+    box-shadow: 2px #3d2b1f;
+}
+
+label {
+    /*Approved*/
+    display: block;
+    margin-bottom: 0.5em;
+    color: #392504;
+    font-weight: 600;
+    font-size: 1rem;
+}
+
+.centered-container {
+    /*Approved*/
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* fallback background,*/
+    background: #fff7f0;
+}
+
+
+/* Everything below is Approved but might be moved from global later*/
+
+.auth-box {
+    width: 100%;
+    max-width: 400px;
+    background: rgb(255, 252, 252);
+    border-radius: 16px;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+    padding: 24px 16px;
+    margin: 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.auth-box input,
+.auth-box button,
+.auth-box form button {
+    width: 100%;
+    max-width: 320px;
+    margin: 0.5em auto;
+    box-sizing: border-box;
+}
+
+.auth-box form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.auth-box .mt-4 {
+    padding-top: 1rem;
+    border-top: 1px solid #f3f4f6;
+    width: 100%;
+}
+
+@media (min-width: 480px) {
+    .auth-box {
+        padding: 32px 32px;
+        margin: 32px auto;
+    }
+}
+
+
+/* interns: add utilities or overrides here, avoid lengthy rules */

@@ -13,13 +13,13 @@ const Auth = () => {
     password: ''
   });
   const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
 
-  // ## Redirect if already logged in ##
+  // Redirect if already logged in
   useEffect(() => {
     const token = getCookie('token');
     const role = getCookie('role');
     if (token) {
-      // already authenticated → send to correct dashboard
       if (role === 'admin') return navigate('/admin/dashboard');
       if (role === 'manager') return navigate('/manager/dashboard');
       return navigate('/home');
@@ -35,6 +35,8 @@ const Auth = () => {
   const handleSubmit = async e => {
     e.preventDefault();
     setError('');
+    setLoading(true);
+
     try {
       const endpoint = form.isSignup ? 'signup' : 'login';
       const payload = form.isSignup
@@ -49,8 +51,9 @@ const Auth = () => {
       // Persist session in cookies
       setCookie('token', data.token);
       setCookie('role', data.role);
-      setCookie('name', data.name);
-      setCookie('email', data.email);
+      // These may be undefined on signup, so check first
+      if (data.name) setCookie('name', data.name);
+      if (data.email) setCookie('email', data.email);
 
       // Redirect based on role
       if (data.role === 'admin') navigate('/admin/dashboard');
@@ -58,6 +61,8 @@ const Auth = () => {
       else navigate('/home');
     } catch (err) {
       setError(err.response?.data?.error || 'Authentication failed');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -94,8 +99,8 @@ const Auth = () => {
         />
         <br />
         {error && <p style={{ color: 'red' }}>{error}</p>}
-        <button type="submit">
-          {form.isSignup ? 'Sign Up' : 'Login'}
+        <button type="submit" disabled={loading}>
+          {loading ? 'Please wait...' : form.isSignup ? 'Sign Up' : 'Login'}
         </button>
       </form>
 
