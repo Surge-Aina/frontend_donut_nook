@@ -91,9 +91,6 @@ const Layout = ({ children, container }) => {
             >
               About
             </Link>
-            {role === 'admin' && (
-              <Link to="/admin/specials" className={`nav-link${location.pathname === '/admin/specials' ? ' active' : ''}`}>Admin Specials</Link>
-            )}
             {(role === 'manager' || role === 'admin') && (
               <Link to="/manager/specials" className={`nav-link${location.pathname === '/manager/specials' ? ' active' : ''}`}>Manage Specials</Link>
             )}
@@ -151,9 +148,6 @@ const Layout = ({ children, container }) => {
             <Link to="/specials" onClick={() => setMobileNavOpen(false)}>🎯 Specials</Link>
             <Link to="/about" onClick={() => setMobileNavOpen(false)}>About</Link>
             
-            {role === 'admin' && (
-              <Link to="/admin/specials" onClick={() => setMobileNavOpen(false)}>Admin Specials</Link>
-            )}
             {(role === 'manager' || role === 'admin') && (
               <Link to="/manager/specials" onClick={() => setMobileNavOpen(false)}>Manage Specials</Link>
             )}

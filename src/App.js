@@ -26,6 +26,7 @@ import AdminCustomers from './pages/admin/Customers';
 import AdminManagers from './pages/admin/Managers';
 import AdminStore from './pages/admin/Store';
 import AdminAbout from './pages/admin/About';
+import AdminSpecials from './pages/admin/Specials';
 
 // Auth
 import Auth from './pages/login/Auth';
@@ -63,7 +64,7 @@ const App = () => (
       <Route
         path="/manager/specials"
         element={
-          <ProtectedRoute requireRole="manager">
+          <ProtectedRoute requireRole={["manager", "admin"]}>
             <ManagerSpecials />
           </ProtectedRoute>
         }
@@ -131,6 +132,14 @@ const App = () => (
         element={
           <ProtectedRoute requireRole="admin">
             <AdminAbout />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/admin/specials"
+        element={
+          <ProtectedRoute requireRole="admin">
+            <AdminSpecials />
           </ProtectedRoute>
         }
       />
