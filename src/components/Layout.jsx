@@ -17,6 +17,12 @@ const Layout = ({ children, container }) => {
     eraseCookie('email');
     eraseCookie('role');
     eraseCookie('userId');
+    // Also clear localStorage
+    localStorage.removeItem('token');
+    localStorage.removeItem('userId');
+    localStorage.removeItem('name');
+    localStorage.removeItem('email');
+    localStorage.removeItem('role');
     navigate('/login');
   };
 

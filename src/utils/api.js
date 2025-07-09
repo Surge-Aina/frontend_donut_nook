@@ -6,6 +6,7 @@ const API_BASE = process.env.REACT_APP_API_BASE_URL || 'http://localhost:5100';
 // Create axios instance with base URL
 const api = axios.create({
   baseURL: API_BASE,
+  withCredentials: true, // Required for cross-origin cookies
   headers: {
     'Content-Type': 'application/json',
   },

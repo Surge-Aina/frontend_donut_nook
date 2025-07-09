@@ -4,7 +4,7 @@ import Layout from '../../components/Layout';
 import { specialsAPI } from '../../utils/api';
 import SpecialForm from '../../components/SpecialForm';
 import SpecialCardEdit from '../../components/SpecialCardEdit';
-import { getCookie } from '../../components/CookieManager';
+import { getCookie, setCookie } from '../../components/CookieManager';
 
 const Specials = () => {
   const [specials, setSpecials] = useState([]);
@@ -56,17 +56,64 @@ const Specials = () => {
   const handleFormSubmit = async (form) => {
     setFormLoading(true);
     try {
-      const userId = getCookie('userId');
+      let userId = getCookie('userId');
+      console.log('🔍 Debug - Initial userId from cookie:', userId);
+      
+      // If userId is missing, try localStorage as fallback (for production)
+      if (!userId || userId === '') {
+        userId = localStorage.getItem('userId');
+        console.log('🔍 Debug - Tried localStorage userId:', userId);
+      }
+      
+      // If userId is still missing, try to get it from the JWT token
+      if (!userId || userId === '') {
+        const token = getCookie('token') || localStorage.getItem('token');
+        console.log('🔍 Debug - Token exists:', !!token);
+        console.log('🔍 Debug - Token length:', token ? token.length : 0);
+        
+        if (token) {
+          try {
+            // Decode JWT token to get userId (this is safe as it's just for reading)
+            const payload = JSON.parse(atob(token.split('.')[1]));
+            console.log('🔍 Debug - JWT payload:', payload);
+            userId = payload.id;
+            console.log('🔍 Debug - Retrieved userId from JWT token:', userId);
+            
+            // If we got userId from token, store it for future use
+            if (userId) {
+              setCookie('userId', userId);
+              localStorage.setItem('userId', userId);
+              console.log('🔍 Debug - Stored userId from token for future use');
+            }
+          } catch (err) {
+            console.error('🔍 Debug - Failed to decode JWT token:', err);
+            console.error('🔍 Debug - Token parts:', token.split('.').length);
+          }
+        }
+      }
+      
+      console.log('🔍 Debug - Final userId:', userId);
+      console.log('🔍 Debug - All cookies:', document.cookie);
+      console.log('🔍 Debug - localStorage keys:', Object.keys(localStorage));
+      
+      // Validate userId for new specials
+      if (!editingSpecial && (!userId || userId === '')) {
+        setError('User ID not found. Please log in again.');
+        setFormLoading(false);
+        return;
+      }
+      
       const payload = {
         ...form,
-        tags: Array.isArray(form.tags) ? form.tags : [],
-        status: (form.status || '').toLowerCase(),
         itemIds: Array.isArray(form.itemIds) ? form.itemIds.map(Number) : [],
         startDate: form.startDate ? new Date(form.startDate).toISOString() : '',
         endDate: form.endDate ? new Date(form.endDate).toISOString() : '',
         specialId: editingSpecial ? editingSpecial.specialId : Date.now(),
         createdBy: editingSpecial ? editingSpecial.createdBy : userId,
       };
+      
+      console.log('🔍 Debug - Final payload createdBy:', payload.createdBy);
+      
       if (editingSpecial) {
         await specialsAPI.update(editingSpecial._id, payload);
       } else {
@@ -77,6 +124,7 @@ const Specials = () => {
       fetchSpecials();
       setError(null);
     } catch (err) {
+      console.error('🔍 Debug - Error in handleFormSubmit:', err);
       setError('Failed to save special: ' + err.message);
     } finally {
       setFormLoading(false);

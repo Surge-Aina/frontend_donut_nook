@@ -6,13 +6,7 @@ const defaultValues = {
   startDate: '',
   endDate: '',
   itemIds: [],
-  status: 'active',
 };
-
-const statusOptions = [
-  { value: 'active', label: 'active' },
-  { value: 'inactive', label: 'inactive' },
-];
 
 // Hardcoded test menu item IDs for now
 const testMenuItems = [
@@ -44,7 +38,6 @@ export default function SpecialForm({ initialValues = {}, onSubmit, onCancel, lo
       startDate: form.startDate,
       endDate: form.endDate,
       itemIds: Array.isArray(form.itemIds) ? form.itemIds : [],
-      status: (form.status || '').toLowerCase(),
     });
   };
 
@@ -85,14 +78,7 @@ export default function SpecialForm({ initialValues = {}, onSubmit, onCancel, lo
           Hold Ctrl (Windows) or Cmd (Mac) to select multiple items.
         </div>
       </div>
-      <div>
-        <label>Status</label>
-        <select name="status" value={form.status} onChange={handleChange} required>
-          {statusOptions.map(opt => (
-            <option key={opt.value} value={opt.value}>{opt.label}</option>
-          ))}
-        </select>
-      </div>
+
       <div style={{ display: 'flex', gap: 16, marginTop: 10 }}>
         <button type="submit" disabled={loading} style={{ background: '#059669', color: 'white', padding: '10px 24px', borderRadius: 8, border: 'none', fontWeight: 'bold', cursor: 'pointer' }}>
           {loading ? 'Saving...' : 'Save'}
