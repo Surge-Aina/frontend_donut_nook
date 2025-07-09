@@ -16,6 +16,7 @@ const Layout = ({ children, container }) => {
     eraseCookie('name');
     eraseCookie('email');
     eraseCookie('role');
+    eraseCookie('userId');
     navigate('/login');
   };
 
@@ -79,11 +80,20 @@ const Layout = ({ children, container }) => {
               Menu
             </Link>
             <Link
+              to="/specials"
+              className={`nav-link${location.pathname === '/specials' ? ' active' : ''}`}
+            >
+              🎯 Specials
+            </Link>
+            <Link
               to="/about"
               className={`nav-link${location.pathname === '/about' ? ' active' : ''}`}
             >
               About
             </Link>
+            {(role === 'manager' || role === 'admin') && (
+              <Link to="/manager/specials" className={`nav-link${location.pathname === '/manager/specials' ? ' active' : ''}`}>Manage Specials</Link>
+            )}
             {!token && !isAuthPage && (
               <Link to="/login" className="hidden md:inline-block">
                 <button>Login / Sign Up</button>
@@ -135,8 +145,12 @@ const Layout = ({ children, container }) => {
           >
             <Link to="/" onClick={() => setMobileNavOpen(false)}>Home</Link>
             <Link to="/menu" onClick={() => setMobileNavOpen(false)}>Menu</Link>
+            <Link to="/specials" onClick={() => setMobileNavOpen(false)}>🎯 Specials</Link>
             <Link to="/about" onClick={() => setMobileNavOpen(false)}>About</Link>
             
+            {(role === 'manager' || role === 'admin') && (
+              <Link to="/manager/specials" onClick={() => setMobileNavOpen(false)}>Manage Specials</Link>
+            )}
             {!token && !isAuthPage && (
               <Link to="/login" className="md:hidden" style={{ marginLeft: 16 }}>
                 <button>Login / Sign Up</button>

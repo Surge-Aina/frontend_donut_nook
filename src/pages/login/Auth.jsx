@@ -54,6 +54,7 @@ const Auth = () => {
       // These may be undefined on signup, so check first
       if (data.name) setCookie('name', data.name);
       if (data.email) setCookie('email', data.email);
+      if (data.userId || data.id) setCookie('userId', data.userId || data.id);
 
       // Redirect based on role
       if (data.role === 'admin') navigate('/admin/dashboard');

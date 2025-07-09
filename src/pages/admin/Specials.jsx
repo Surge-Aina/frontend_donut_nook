@@ -1,4 +1,4 @@
-// Manager & Admin: create/edit specials
+// Admin: create/edit specials (same functionality as manager)
 import React, { useState, useEffect } from 'react';
 import Layout from '../../components/Layout';
 import { specialsAPI } from '../../utils/api';
@@ -98,7 +98,7 @@ const Specials = () => {
           fontSize: '2.5rem',
           fontWeight: 'bold'
         }}>
-          🎯 Manage Specials
+          🎯 Admin: Manage Specials
         </h1>
 
         {error && (
@@ -186,4 +186,4 @@ const Specials = () => {
   );
 };
 
-export default Specials;
+export default Specials; 
