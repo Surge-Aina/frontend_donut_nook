@@ -33,6 +33,21 @@ export async function getPing() {
     .then(res => res.json());
 }
 
+
+// Fetch all customers
+export async function getCustomers() {
+  return fetch(`${API_BASE}/customers`).then(res => res.json());
+}
+
+// Create a new customer
+export async function createCustomer(data) {
+  return fetch(`${API_BASE}/customers`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(data),
+  }).then(res => res.json());
+}
+
 // Specials API functions
 export const specialsAPI = {
   // Get all specials
@@ -59,5 +74,6 @@ export const specialsAPI = {
     return response.data;
   }
 };
+
 
 // DO NOT hardcode URLs elsewhere; always use this file
