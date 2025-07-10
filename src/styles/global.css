@@ -339,6 +339,14 @@ label {
     font-size: 0.95rem;
     color: #392504;
 }
+/* for the favorite function */
+.favorite-icon { /*In Progress*/ 
+    font-size: 1.5rem; 
+  cursor: pointer;
+  color: #ff85a1;
+  transition: transform 0.2s ease-in-out;
+}
+
 
 .customer-table {
   /*Approved*/
@@ -376,5 +384,10 @@ label {
   margin: 0;
   padding-left: 1.25em;
   list-style-type: disc;
+}
+
+
+.favorite-icon:hover { /*In Progress*/
+  transform: scale(1.2); 
 }
 

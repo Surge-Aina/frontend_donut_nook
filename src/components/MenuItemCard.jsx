@@ -1,4 +1,5 @@
 
+
 const MenuItemCard = ({
   item,
   editingId,
@@ -9,15 +10,15 @@ const MenuItemCard = ({
   setEditingId,
   handleDeleteClick,
   role,
+  handleFavoriteClick, 
 }) => (
-  <div  className="menu-item-container">
+  <div className="menu-item-container">
     {editingId === item._id ? (
       <>
         <input
           name="name"
           value={formData.name}
           onChange={handleInputChange}
-          
         />
         <input
           name="price"
@@ -25,13 +26,11 @@ const MenuItemCard = ({
           onChange={handleInputChange}
           type="number"
           step="0.01"
-          
         />
         <select
           name="available"
           value={formData.available}
           onChange={handleInputChange}
-          
         >
           <option value={true}>Yes</option>
           <option value={false}>No</option>
@@ -40,14 +39,12 @@ const MenuItemCard = ({
           name="category"
           value={formData.category}
           onChange={handleInputChange}
-          
         />
         <div>
           <button onClick={() => handleSaveClick(item.itemId)}>Save</button>
           <button onClick={() => setEditingId(null)}>Cancel</button>
-
           <button onClick={() => {
-            if(window.confirm(`Delete ${item.name}?`)){
+            if (window.confirm(`Delete ${item.name}?`)) {
               handleDeleteClick(item.itemId);
             }
           }}>
@@ -57,7 +54,17 @@ const MenuItemCard = ({
       </>
     ) : (
       <>
-        <h1>{item.name}</h1>
+        <div className="card-header">
+          <h1>{item.name}</h1>
+          {(role === 'admin' || role === 'manager') && (
+            <span
+              className="favorite-icon"
+              onClick={() => handleFavoriteClick(item._id)}
+            >
+              {item.isFavorite ? '❤️' : '♡'}
+            </span>
+          )}
+        </div>
         <p>Price: ${item.priceHistory[item.priceHistory?.length - 1].price}</p>
         <p>Available: {item.available ? 'Yes' : 'No'}</p>
         <p>Category: {item.category}</p>

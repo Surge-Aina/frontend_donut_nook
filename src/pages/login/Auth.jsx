@@ -54,6 +54,14 @@ const Auth = () => {
       // These may be undefined on signup, so check first
       if (data.name) setCookie('name', data.name);
       if (data.email) setCookie('email', data.email);
+      if (data.userId || data.id) {
+        const userId = data.userId || data.id;
+        setCookie('userId', userId);
+        // Also store in localStorage as backup for production
+        localStorage.setItem('userId', userId);
+        localStorage.setItem('token', data.token);
+        console.log('🔐 Stored userId in both cookie and localStorage:', userId);
+      }
 
       // Also persist token in localStorage for API helpers
       if (data.token) localStorage.setItem('token', data.token);
