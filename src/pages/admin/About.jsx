@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Layout from '../../components/Layout';
+import { getCookie } from '../../components/CookieManager';
 
 const AdminAbout = () => {
   const [content, setContent] = useState('');
@@ -8,9 +9,12 @@ const AdminAbout = () => {
   const [success, setSuccess] = useState('');
 
   useEffect(() => {
-    axios.get(`${process.env.REACT_APP_API_BASE_URL}/about`)
-      .then(res => setContent(res.data.content || ''))
-      .catch(err => setError('Failed to load about content'));
+    const token = getCookie('token');
+    axios.get(`${process.env.REACT_APP_API_BASE_URL}/about`, {
+      headers: { Authorization: `Bearer ${token}` }
+    })
+    .then(res => setContent(res.data.content || ''))
+    .catch(() => setError('Failed to load about content'));
   }, []);
 
   const handleChange = (e) => {
@@ -20,13 +24,25 @@ const AdminAbout = () => {
   };
 
   const handleSubmit = (e) => {
-    e.preventDefault();
-    setError('');
-    setSuccess('');
-    axios.post(`${process.env.REACT_APP_API_BASE_URL}/about`, { content })
-      .then(() => setSuccess('About updated successfully!'))
-      .catch(() => setError('Failed to update about content'));
-  };
+  e.preventDefault();
+  setError('');
+  setSuccess('');
+  
+  const token = getCookie('token');  // Make sure this gets the right token
+
+
+  if (!token) {
+    setError('You must be logged in to update.');
+    return;
+  }
+
+  axios.put(`${process.env.REACT_APP_API_BASE_URL}/about`, { content }, {
+    headers: { Authorization: `Bearer ${token}` }
+  })
+  .then(() => setSuccess('About updated successfully!'))
+  .catch(() => setError('Failed to update about content'));
+};
+
 
   return (
     <Layout>

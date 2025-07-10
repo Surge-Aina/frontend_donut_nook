@@ -1,4 +1,3 @@
-// src/utils/api.js
 
 const API_BASE = process.env.REACT_APP_API_BASE_URL || 'http://localhost:5001/api';
 
@@ -57,7 +56,31 @@ export function post(endpoint, body) {
 export function put(endpoint, body) {
   return _fetch(endpoint, { method: 'PUT', body });
 }
+// Specials API functions
+export const specialsAPI = {
+  // Get all specials
+  getAll: async () => {
+    const response = await api.get('/specials');
+    return response.data;
+  },
 
-export function del(endpoint) {
-  return _fetch(endpoint, { method: 'DELETE' });
-}
+  // Create a new special
+  create: async (specialData) => {
+    const response = await api.post('/specials', specialData);
+    return response.data;
+  },
+
+  // Update an existing special
+  update: async (id, specialData) => {
+    const response = await api.patch(`/specials/${id}`, specialData);
+    return response.data;
+  },
+
+  // Delete a special
+  delete: async (id) => {
+    const response = await api.delete(`/specials/${id}`);
+    return response.data;
+  }
+};
+
+// DO NOT hardcode URLs elsewhere; always use this file

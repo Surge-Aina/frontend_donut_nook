@@ -12,9 +12,12 @@ const ProtectedRoute = ({ children, requireRole }) => {
     return <Navigate to="/login" replace />;
   }
 
-  if (requireRole && role !== requireRole) {
-    // User logged in but not authorized, redirect to login or not authorized page
-    return <Navigate to="/login" replace />;
+  if (requireRole) {
+    const allowedRoles = Array.isArray(requireRole) ? requireRole : [requireRole];
+    if (!allowedRoles.includes(role)) {
+      // User logged in but not authorized
+      return <Navigate to="/login" replace />;
+    }
   }
 
   // User authorized, render the children components
