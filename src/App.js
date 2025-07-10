@@ -1,7 +1,8 @@
-// Main router: interns add routes as they build pages
+
+
+// src/App.js
 import React from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-
 
 // Public pages
 import Home from './pages/public/Home';
@@ -25,6 +26,7 @@ import AdminCustomers from './pages/admin/Customers';
 import AdminManagers from './pages/admin/Managers';
 import AdminStore from './pages/admin/Store';
 import AdminAbout from './pages/admin/About';
+import AdminSpecials from './pages/admin/Specials';
 
 // Auth
 import Auth from './pages/login/Auth';
@@ -32,16 +34,11 @@ import Auth from './pages/login/Auth';
 // Protected route wrapper
 import ProtectedRoute from './components/ProtectedRoute';
 import Test from './pages/Test';
-import Layout from './components/Layout';
-
 
 const App = () => (
   <BrowserRouter>
     <Routes>
       <Route path="/" element={<Navigate to="/home" />} />
-     
-
-
 
       {/* Public */}
       <Route path="/home" element={<Home />} />
@@ -56,48 +53,101 @@ const App = () => (
       <Route path="/login" element={<Auth />} />
 
       {/* Manager & Admin Shared */}
-      <Route path="/manager/menu" element={
-        <ProtectedRoute requireRole="manager"><ManagerMenu/></ProtectedRoute>
-      } />
-      <Route path="/manager/specials" element={
-        <ProtectedRoute requireRole="manager"><ManagerSpecials/></ProtectedRoute>
-      } />
-      <Route path="/manager/customers" element={
-        <ProtectedRoute requireRole="manager"><ManagerCustomers/></ProtectedRoute>
-      } />
-      <Route path="/manager/store" element={
-        <ProtectedRoute requireRole="manager"><ManagerStore/></ProtectedRoute>
-      } />
-      <Route path="/manager/dashboard" element={
-        <ProtectedRoute requireRole="manager">
-          <ManagerDashboard/>
+      <Route
+        path="/manager/menu"
+        element={
+          <ProtectedRoute requireRole="manager">
+            <ManagerMenu />
           </ProtectedRoute>
-      } />
+        }
+      />
+      <Route
+        path="/manager/specials"
+        element={
+          <ProtectedRoute requireRole={["manager", "admin"]}>
+            <ManagerSpecials />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/manager/customers"
+        element={
+          <ProtectedRoute requireRole="manager">
+            <ManagerCustomers />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/manager/store"
+        element={
+          <ProtectedRoute requireRole="manager">
+            <ManagerStore />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/manager/dashboard"
+        element={
+          <ProtectedRoute requireRole="manager">
+            <ManagerDashboard />
+          </ProtectedRoute>
+        }
+      />
 
       {/* Admin-only */}
-      <Route path="/admin/dashboard" element={
-        <ProtectedRoute requireRole="admin"><AdminDashboard/></ProtectedRoute>
-      } />
-      <Route path="/admin/customers" element={
-        <ProtectedRoute requireRole="admin"><AdminCustomers/></ProtectedRoute>
-      } />
-      <Route path="/managers" element={
-        <ProtectedRoute requireRole="admin"><AdminManagers/></ProtectedRoute>
-      } />
-      <Route path="/admin/store" element={
-        <ProtectedRoute requireRole="admin"><AdminStore/></ProtectedRoute>
-      } />
-      <Route path="/admin/about" element={
-        <ProtectedRoute requireRole="admin"><AdminAbout/></ProtectedRoute>
-      } />
+      <Route
+        path="/admin/dashboard"
+        element={
+          <ProtectedRoute requireRole="admin">
+            <AdminDashboard />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/admin/customers"
+        element={
+          <ProtectedRoute requireRole="admin">
+            <AdminCustomers />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/managers"
+        element={
+          <ProtectedRoute requireRole="admin">
+            <AdminManagers />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/admin/store"
+        element={
+          <ProtectedRoute requireRole="admin">
+            <AdminStore />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/admin/about"
+        element={
+          <ProtectedRoute requireRole="admin">
+            <AdminAbout />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/admin/specials"
+        element={
+          <ProtectedRoute requireRole="admin">
+            <AdminSpecials />
+          </ProtectedRoute>
+        }
+      />
       <Route path="/test" element={<Test />} />
-
-
     </Routes>
   </BrowserRouter>
 );
 
 export default App;
 
-//add imports for any new pages here
-
+// //add imports for any new pages here

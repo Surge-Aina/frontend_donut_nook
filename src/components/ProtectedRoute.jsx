@@ -8,12 +8,23 @@ const ProtectedRoute = ({ children, requireRole }) => {
   const role = getCookie('role');
 
   if (!token) {
-    return <Navigate to="/login" />;
+    // User not logged in, redirect to login
+    return <Navigate to="/login" replace />;
   }
-  if (requireRole && role !== requireRole) {
-    return <Navigate to="/login" />;
+
+  if (requireRole) {
+    const allowedRoles = Array.isArray(requireRole) ? requireRole : [requireRole];
+    if (!allowedRoles.includes(role)) {
+      // User logged in but not authorized
+      return <Navigate to="/login" replace />;
+    }
   }
+
+  // User authorized, render the children components
   return children;
 };
 
 export default ProtectedRoute;
+
+
+

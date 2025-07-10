@@ -1,11 +1,14 @@
-// Public: view-only menu
-import React from 'react';
 import Layout from '../../components/Layout';
+import MenuItems from '../../components/MenuItems';
 
 const Menu = () => (
   <Layout>
-    <h1>Menu</h1>
-    {/* TODO: fetch and list items */}
+    <div className="menu-page-container">
+      {/* removed the static menu here since it was messing with my favorite icon page */}
+      <div className="p-4">
+        <MenuItems/>
+      </div>
+    </div>
   </Layout>
 );
 
