@@ -84,6 +84,22 @@ const Layout = ({ children, container }) => {
             >
               About
             </Link>
+            {token && role === 'customer' && (
+              <Link
+                to="/customer/dashboard"
+                className={`nav-link${location.pathname === '/customer/dashboard' ? ' active' : ''}`}
+              >
+                My Dashboard
+              </Link>
+            )}
+            {token && (role === 'admin' || role === 'manager') && (
+              <Link
+                to={role === 'admin' ? '/admin/customers' : '/manager/customers'}
+                className={`nav-link${location.pathname.includes('/customers') ? ' active' : ''}`}
+              >
+                Customers
+              </Link>
+            )}
             {!token && !isAuthPage && (
               <Link to="/login" className="hidden md:inline-block">
                 <button>Login / Sign Up</button>
@@ -136,7 +152,19 @@ const Layout = ({ children, container }) => {
             <Link to="/" onClick={() => setMobileNavOpen(false)}>Home</Link>
             <Link to="/menu" onClick={() => setMobileNavOpen(false)}>Menu</Link>
             <Link to="/about" onClick={() => setMobileNavOpen(false)}>About</Link>
-            
+            {token && role === 'customer' && (
+              <Link to="/customer/dashboard" onClick={() => setMobileNavOpen(false)}>
+                My Dashboard
+              </Link>
+            )}
+            {token && (role === 'admin' || role === 'manager') && (
+              <Link 
+                to={role === 'admin' ? '/admin/customers' : '/manager/customers'} 
+                onClick={() => setMobileNavOpen(false)}
+              >
+                Customers
+              </Link>
+            )}
             {!token && !isAuthPage && (
               <Link to="/login" className="md:hidden" style={{ marginLeft: 16 }}>
                 <button>Login / Sign Up</button>

@@ -7,9 +7,30 @@ export async function getPing() {
     .then(res => res.json());
 }
 
-// Fetch all customers
+// Fetch all customers (admin/manager only)
 export async function getCustomers() {
-  return fetch(`${API_BASE}/customers`).then(res => res.json());
+  return fetch(`${API_BASE}/customers`, {
+    headers: {
+      'Authorization': `Bearer ${localStorage.getItem('token')}`,
+      'Content-Type': 'application/json'
+    }
+  })
+    .then(res => res.json())
+    .then(data => Array.isArray(data) ? data : []);
+}
+
+// Fetch current customer's data
+export async function getCurrentCustomer() {
+  return fetch(`${API_BASE}/customers/me`, {
+    headers: {
+      'Authorization': `Bearer ${localStorage.getItem('token')}`,
+      'Content-Type': 'application/json'
+    }
+  })
+    .then(res => {
+      if (!res.ok) throw new Error('Failed to fetch customer data');
+      return res.json();
+    });
 }
 
 // Create a new customer
@@ -19,6 +40,29 @@ export async function createCustomer(data) {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(data),
   }).then(res => res.json());
+}
+
+// Delete a customer (admin only)
+export async function deleteCustomer(customerId) {
+  return fetch(`${API_BASE}/customers/${customerId}`, {
+    method: 'DELETE',
+    headers: {
+      'Authorization': `Bearer ${localStorage.getItem('token')}`,
+      'Content-Type': 'application/json'
+    }
+  });
+}
+
+// Reset loyalty points to zero (admin only)
+export async function resetLoyaltyPoints(customerId) {
+  return fetch(`${API_BASE}/customers/${customerId}/loyalty`, {
+    method: 'PATCH',
+    headers: {
+      'Authorization': `Bearer ${localStorage.getItem('token')}`,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ points: 0 })
+  });
 }
 
 // DO NOT hardcode URLs elsewhere; always use this file

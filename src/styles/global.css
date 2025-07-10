@@ -340,3 +340,41 @@ label {
     color: #392504;
 }
 
+.customer-table {
+  /*Approved*/
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1.5rem;
+  background: #fffdfa;
+  font-family: inherit;
+  font-size: 1rem;
+  box-shadow: 0 2px 8px rgba(60, 40, 20, 0.04);
+}
+.customer-table th, .customer-table td {
+  /*Approved*/
+  border: 1px solid #e2cfa5;
+  padding: 0.75em 1em;
+  text-align: left;
+}
+.customer-table th {
+  /*Approved*/
+  background: #f5da41;
+  color: #392504;
+  font-weight: 700;
+}
+.customer-table tr:nth-child(even) {
+  /*Approved*/
+  background: #fff7e0;
+}
+.customer-table tr:hover {
+  /*Approved*/
+  background: #f9eab0;
+}
+
+.purchase-list {
+  /*Approved*/
+  margin: 0;
+  padding-left: 1.25em;
+  list-style-type: disc;
+}
+

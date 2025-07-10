@@ -20,11 +20,49 @@ const Customers = () => {
       });
   }, []);
 
+  const handleAddLoyalty = async (customerId) => {
+    // Call API to add loyalty point
+    await addLoyaltyPoint(customerId);
+    // Refresh data
+    fetchCustomers();
+  };
+  const handleEditLoyalty = (customerId) => {
+    const newPoints = prompt('Enter new loyalty points value:');
+    if (newPoints === null) return;
+    updateLoyaltyPoints(customerId, Number(newPoints));
+  };
+  const handleSubtractLoyalty = async (customerId, currentPoints) => {
+    const newPoints = Math.max(0, currentPoints - 1);
+    await updateLoyaltyPoints(customerId, newPoints);
+  };
+
+  async function addLoyaltyPoint(customerId) {
+    await fetch(`${API_BASE}/customers/${customerId}/loyalty`, {
+      method: 'PATCH',
+      headers: {
+        'Authorization': `Bearer ${localStorage.getItem('token')}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ delta: 1 })
+    });
+  }
+  async function updateLoyaltyPoints(customerId, points) {
+    await fetch(`${API_BASE}/customers/${customerId}/loyalty`, {
+      method: 'PUT',
+      headers: {
+        'Authorization': `Bearer ${localStorage.getItem('token')}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ points })
+    });
+    fetchCustomers();
+  }
+
   return (
     <Layout>
       <h1>Manager: Customers</h1>
       {loading ? <div>Loading...</div> : error ? <div style={{color:'red'}}>{error}</div> : (
-        <table border="1" cellPadding="8" style={{marginTop:16}}>
+        <table className="customer-table">
           <thead>
             <tr>
               <th>Name</th>
@@ -33,27 +71,47 @@ const Customers = () => {
               <th>DOB</th>
               <th>Loyalty Points</th>
               <th>Purchase History</th>
+              <th>Actions</th>
             </tr>
           </thead>
           <tbody>
-            {customers.map((c, i) => (
-              <tr key={i}>
-                <td>{c.name}</td>
-                <td>{c.email}</td>
-                <td>{c.phone}</td>
-                <td>{c.dob}</td>
-                <td>{c.loyaltyPoints ?? '-'}</td>
-                <td>
-                  {Array.isArray(c.purchaseHistory) && c.purchaseHistory.length > 0 ? (
-                    <ul style={{margin:0,paddingLeft:16}}>
-                      {c.purchaseHistory.map((p, j) => (
-                        <li key={j}>{p}</li>
-                      ))}
+            {Array.isArray(customers) ? (
+              customers.length === 0 ? (
+                <tr><td colSpan={6} style={{textAlign:'center'}}>No customers found.</td></tr>
+              ) : customers.map((c, i) => (
+                <tr key={i}>
+                  <td>{c.name}</td>
+                  <td>{c.email}</td>
+                  <td>{c.phone}</td>
+                  <td>{c.dob ? new Date(c.dob).toLocaleDateString() : '-'}</td>
+                  <td>
+                    {c.loyaltyPoints ?? '-'}
+                    <button className="loyalty-plus-btn" title="Add Loyalty Point" onClick={() => handleAddLoyalty(c._id)}>+</button>
+                    <button className="loyalty-minus-btn" title="Subtract Loyalty Point" onClick={() => handleSubtractLoyalty(c._id, c.loyaltyPoints)}>-</button>
+                  </td>
+                  <td>
+                    <ul className="purchase-list">
+                      {c.purchaseHistory && c.purchaseHistory.length > 0 ? (
+                        c.purchaseHistory.map((purchase, idx) => (
+                          <li key={idx}>
+                            Item: {purchase.menuItemId}, Amount: {purchase.amount}, Date: {new Date(purchase.timestamp).toLocaleDateString()}
+                          </li>
+                        ))
+                      ) : (
+                        <li>No purchases</li>
+                      )}
                     </ul>
-                  ) : '-'}
-                </td>
-              </tr>
-            ))}
+                  </td>
+                  <td>
+                    <button className="edit-loyalty-btn" title="Edit Loyalty Points" onClick={() => handleEditLoyalty(c._id)}>
+                      ✏️
+                    </button>
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <tr><td colSpan={6} style={{textAlign:'center',color:'red'}}>Error loading customers.</td></tr>
+            )}
           </tbody>
         </table>
       )}
