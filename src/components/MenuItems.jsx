@@ -148,21 +148,23 @@ const MenuItems = () => {
                         </div>
                     )
                 ) : (
-                    filteredMenu.map(item => (
-                        <MenuItemCard
-                            key={item._id}
-                            item={item}
-                            editingId={editingId}
-                            formData={formData}
-                            handleInputChange={handleInputChange}
-                            handleEditClick={handleEditClick}
-                            handleSaveClick={handleSaveClick}
-                            setEditingId={setEditingId}
-                            handleDeleteClick={handleDeleteClick}
-                            role={role}
-                            handleFavoriteClick={handleFavoriteClick}
-                        />
-                    ))
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
+                        {filteredMenu.map(item => (
+                            <MenuItemCard
+                                key={item._id}
+                                item={item}
+                                editingId={editingId}
+                                formData={formData}
+                                handleInputChange={handleInputChange}
+                                handleEditClick={handleEditClick}
+                                handleSaveClick={handleSaveClick}
+                                setEditingId={setEditingId}
+                                handleDeleteClick={handleDeleteClick}
+                                role={role}
+                                handleFavoriteClick={handleFavoriteClick}
+                            />
+                        ))}
+                    </div>
                 )}
             </div>
 
