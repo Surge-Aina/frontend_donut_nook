@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import MenuItemCard from './MenuItemCard';
 import { getCookie } from './CookieManager';
+import { specialsAPI } from '../utils/api';
 
 const MenuItems = () => {
     const role = getCookie('role');
@@ -15,9 +16,10 @@ const MenuItems = () => {
         available: true,
         category: ''
     });
-    
-
+    const [specials, setSpecials] = useState([]);
+    const [specialsLoading, setSpecialsLoading] = useState(true);
     const [filter, setFilter] = useState('All');
+    const [showAddForm, setShowAddForm] = useState(false);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -29,6 +31,20 @@ const MenuItems = () => {
             }
         };
         fetchData();
+    }, []);
+
+    useEffect(() => {
+        const fetchSpecials = async () => {
+            try {
+                const data = await specialsAPI.getAll();
+                setSpecials(data);
+            } catch (err) {
+                console.error('Failed to fetch specials:', err);
+            } finally {
+                setSpecialsLoading(false);
+            }
+        };
+        fetchSpecials();
     }, []);
 
     // Function to handle favorite click
@@ -114,26 +130,51 @@ const MenuItems = () => {
             </div>
 
             <div>
-                {filteredMenu.map(item => (
-                    <MenuItemCard
-                        key={item._id}
-                        item={item}
-                        editingId={editingId}
-                        formData={formData}
-                        handleInputChange={handleInputChange}
-                        handleEditClick={handleEditClick}
-                        handleSaveClick={handleSaveClick}
-                        setEditingId={setEditingId}
-                        handleDeleteClick={handleDeleteClick}
-                        role={role}
-                
-                        handleFavoriteClick={handleFavoriteClick}
-                    />
-                ))}
+                {filter === 'Specials' ? (
+                    specialsLoading ? (
+                        <div>Loading specials...</div>
+                    ) : (
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
+                            {specials.map(special => (
+                                <div key={special._id} className="menu-item-container p-6 border rounded-lg shadow bg-white">
+                                    <h2 className="font-bold text-xl mb-2">{special.title}</h2>
+                                    <p className="mb-2">{special.message}</p>
+                                    {special.price && <div className="mb-2 font-semibold">${special.price}</div>}
+                                    <div className="text-sm text-gray-500">
+                                        Valid: {new Date(special.startDate).toLocaleDateString()} - {new Date(special.endDate).toLocaleDateString()}
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    )
+                ) : (
+                    filteredMenu.map(item => (
+                        <MenuItemCard
+                            key={item._id}
+                            item={item}
+                            editingId={editingId}
+                            formData={formData}
+                            handleInputChange={handleInputChange}
+                            handleEditClick={handleEditClick}
+                            handleSaveClick={handleSaveClick}
+                            setEditingId={setEditingId}
+                            handleDeleteClick={handleDeleteClick}
+                            role={role}
+                            handleFavoriteClick={handleFavoriteClick}
+                        />
+                    ))
+                )}
             </div>
 
-            {(role === 'admin' || role === 'manager') &&
+            {(role === 'admin' || role === 'manager') && (
+                <div style={{ marginTop: '2rem', padding: '1rem', borderTop: '1px solid #ccc' }}>
+                    <button onClick={() => setShowAddForm(!showAddForm)}>
+                        {showAddForm ? 'Cancel' : 'Add New Menu Item'}
+                    </button>
+                </div>
+            )} 
                 <div>
+                    
                     <h1>Add New Menu Item</h1>
                     {/* <input
                         placeholder="Item ID"
@@ -168,7 +209,7 @@ const MenuItems = () => {
                     <button onClick={handleNewItem}>
                         Add Item
                     </button>
-                </div>}
+                </div>
         </div>
     );
 };
