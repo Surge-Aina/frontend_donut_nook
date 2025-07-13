@@ -66,21 +66,26 @@ const MenuItems = () => {
     };
 
     const handleNewItem = async () => {
-        try {
-            const response = await axios.post(`${process.env.REACT_APP_API_BASE_URL}/menu`, {
-                itemId: newItem.itemId,
-                name: newItem.name,
-                category: newItem.category,
-                available: newItem.available,
-                price: newItem.price
-            });
-            setMenu([...menu, response.data.savedItem]);
-            setNewItem({ itemId: '', name: '', price: 0, available: true, category: '' });
+        if (!newItem.name || !newItem.category) { // check see if they are filled
+            alert("Please fill in all required fields (Item ID and Name).");
+            return;
+        }
+    try {
+        const response = await axios.post(`${process.env.REACT_APP_API_BASE_URL}/menu`, {
+            name: newItem.name,
+            category: newItem.category,
+            available: newItem.available,
+            price: newItem.price
+        });
+        if (response.data && response.data.savedItem) {
+                setMenu([...menu, response.data.savedItem]);
+            }
+        
+        setNewItem({ name: '', price: 0, available: true, category: '' });
         } catch (error) {
             console.error('Error adding item:', error);
         }
     };
-
     const handleDeleteClick = async (itemId) => {
         try {
             await axios.delete(`${process.env.REACT_APP_API_BASE_URL}/menu/${itemId}`);
@@ -93,6 +98,9 @@ const MenuItems = () => {
     const filteredMenu = menu.filter(item => {
         if (filter === 'Favorites') {
             return item.isFavorite; 
+        }
+        if (filter === 'Specials') { // connect to special backend route
+            return item.activeSpecial; 
         }
         return true;
     });
@@ -127,12 +135,12 @@ const MenuItems = () => {
             {(role === 'admin' || role === 'manager') &&
                 <div>
                     <h1>Add New Menu Item</h1>
-                    <input
+                    {/* <input
                         placeholder="Item ID"
                         type="number"
                         value={newItem.itemId ?? ''}
                         onChange={(e) => setNewItem({ ...newItem, itemId: e.target.value })}
-                    />
+                    /> */}
                     <input
                         placeholder="Name"
                         value={newItem.name ?? ''}
@@ -158,7 +166,7 @@ const MenuItems = () => {
                         <option value="false">No</option>
                     </select>
                     <button onClick={handleNewItem}>
-                        Add
+                        Add Item
                     </button>
                 </div>}
         </div>
