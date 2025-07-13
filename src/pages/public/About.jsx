@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 import Layout from '../../components/Layout';
 import { FiEdit2, FiTrash2, FiX } from 'react-icons/fi';
-
 
 const About = () => {
   const [sections, setSections] = useState([]);
@@ -14,7 +14,6 @@ const About = () => {
     fetchSections();
     checkAdmin();
   }, []);
-
 
   const checkAdmin = () => {
     const token = localStorage.getItem('token');
@@ -87,7 +86,6 @@ const About = () => {
           <h1 className="text-3xl font-bold text-center md:text-left" style={{ fontFamily: "'Luckiest Guy', cursive" }}>
             About Donut Nook
           </h1>
-
           {isAdmin && (
             <button
               className="mt-4 md:mt-0 md:ml-8 px-4 py-2 bg-pink-500 text-white rounded hover:bg-pink-600"
@@ -141,13 +139,11 @@ const About = () => {
                   {section.content.length > 180
                     ? section.content.slice(0, 180) + '...'
                     : section.content}
-
                 </p>
               </div>
             </div>
           ))}
         </div>
-
 
         {/* Expanded modal */}
         {expandedCard && (
@@ -228,7 +224,6 @@ const About = () => {
               >
                 Save Changes
               </button>
-
             </div>
           </div>
         )}
