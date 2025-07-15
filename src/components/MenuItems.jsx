@@ -123,6 +123,55 @@ const MenuItems = () => {
 
     return (
         <div>
+            <div >
+                {(role === 'admin' || role === 'manager') && (
+                    <div style={{ marginTop: '1rem', padding: '1rem', }}>
+                        <button onClick={() => setShowAddForm(!showAddForm)}>
+                            {showAddForm ? 'Cancel' : 'Add New Menu Item'}
+                        </button>
+                    </div>
+                )} 
+                {(showAddForm) && (
+                    <div>
+                        
+                        <h1>Add New Menu Item</h1>
+                        {/* <input
+                            placeholder="Item ID"
+                            type="number"
+                            value={newItem.itemId ?? ''}
+                            onChange={(e) => setNewItem({ ...newItem, itemId: e.target.value })}
+                        /> */}
+                        <input
+                            placeholder="Name"
+                            value={newItem.name ?? ''}
+                            onChange={(e) => setNewItem({ ...newItem, name: e.target.value })}
+                        />
+                        <input
+                            placeholder="Price"
+                            type="number"
+                            step="0.01"
+                            value={newItem.price ?? 0}
+                            onChange={(e) => setNewItem({ ...newItem, price: e.target.value })}
+                        />
+                        <input
+                            placeholder="Category"
+                            value={newItem.category ?? ''}
+                            onChange={(e) => setNewItem({ ...newItem, category: e.target.value })}
+                        />
+                        <select
+                            value={newItem.available ?? true}
+                            onChange={(e) => setNewItem({ ...newItem, available: e.target.value === 'true' })}
+                        >
+                            <option value="true">Yes</option>
+                            <option value="false">No</option>
+                        </select>
+                        <button onClick={handleNewItem}>
+                            Add Item
+                        </button>
+                    </div>
+                )}
+            </div>
+
             <div className="menu-tabs">
                 <button onClick={() => setFilter('All')} className={`menu-tab ${filter === 'All' ? 'active' : ''}`}>All</button>
                 <button onClick={() => setFilter('Favorites')} className={`menu-tab ${filter === 'Favorites' ? 'active' : ''}`}>Favorites</button>
@@ -167,51 +216,6 @@ const MenuItems = () => {
                     </div>
                 )}
             </div>
-
-            {(role === 'admin' || role === 'manager') && (
-                <div style={{ marginTop: '2rem', padding: '1rem', borderTop: '1px solid #ccc' }}>
-                    <button onClick={() => setShowAddForm(!showAddForm)}>
-                        {showAddForm ? 'Cancel' : 'Add New Menu Item'}
-                    </button>
-                </div>
-            )} 
-                <div>
-                    
-                    <h1>Add New Menu Item</h1>
-                    {/* <input
-                        placeholder="Item ID"
-                        type="number"
-                        value={newItem.itemId ?? ''}
-                        onChange={(e) => setNewItem({ ...newItem, itemId: e.target.value })}
-                    /> */}
-                    <input
-                        placeholder="Name"
-                        value={newItem.name ?? ''}
-                        onChange={(e) => setNewItem({ ...newItem, name: e.target.value })}
-                    />
-                    <input
-                        placeholder="Price"
-                        type="number"
-                        step="0.01"
-                        value={newItem.price ?? 0}
-                        onChange={(e) => setNewItem({ ...newItem, price: e.target.value })}
-                    />
-                    <input
-                        placeholder="Category"
-                        value={newItem.category ?? ''}
-                        onChange={(e) => setNewItem({ ...newItem, category: e.target.value })}
-                    />
-                    <select
-                        value={newItem.available ?? true}
-                        onChange={(e) => setNewItem({ ...newItem, available: e.target.value === 'true' })}
-                    >
-                        <option value="true">Yes</option>
-                        <option value="false">No</option>
-                    </select>
-                    <button onClick={handleNewItem}>
-                        Add Item
-                    </button>
-                </div>
         </div>
     );
 };

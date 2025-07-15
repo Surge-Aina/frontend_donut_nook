@@ -57,27 +57,27 @@ const Specials = () => {
     setFormLoading(true);
     try {
       let userId = getCookie('userId');
-      console.log('🔍 Debug - Initial userId from cookie:', userId);
+      // console.log('🔍 Debug - Initial userId from cookie:', userId);
       
       // If userId is missing, try localStorage as fallback (for production)
       if (!userId || userId === '') {
         userId = localStorage.getItem('userId');
-        console.log('🔍 Debug - Tried localStorage userId:', userId);
+        // console.log('🔍 Debug - Tried localStorage userId:', userId);
       }
       
       // If userId is still missing, try to get it from the JWT token
       if (!userId || userId === '') {
         const token = getCookie('token') || localStorage.getItem('token');
-        console.log('🔍 Debug - Token exists:', !!token);
-        console.log('🔍 Debug - Token length:', token ? token.length : 0);
+        // console.log('🔍 Debug - Token exists:', !!token);
+        // console.log('🔍 Debug - Token length:', token ? token.length : 0);
         
         if (token) {
           try {
             // Decode JWT token to get userId (this is safe as it's just for reading)
             const payload = JSON.parse(atob(token.split('.')[1]));
-            console.log('🔍 Debug - JWT payload:', payload);
+            // console.log('🔍 Debug - JWT payload:', payload);
             userId = payload.id;
-            console.log('🔍 Debug - Retrieved userId from JWT token:', userId);
+            // console.log('🔍 Debug - Retrieved userId from JWT token:', userId);
             
             // If we got userId from token, store it for future use
             if (userId) {
@@ -92,9 +92,9 @@ const Specials = () => {
         }
       }
       
-      console.log('🔍 Debug - Final userId:', userId);
-      console.log('🔍 Debug - All cookies:', document.cookie);
-      console.log('🔍 Debug - localStorage keys:', Object.keys(localStorage));
+      // console.log('🔍 Debug - Final userId:', userId);
+      // console.log('🔍 Debug - All cookies:', document.cookie);
+      // console.log('🔍 Debug - localStorage keys:', Object.keys(localStorage));
       
       // Validate userId for new specials
       if (!editingSpecial && (!userId || userId === '')) {
@@ -112,7 +112,7 @@ const Specials = () => {
         createdBy: editingSpecial ? editingSpecial.createdBy : userId,
       };
       
-      console.log('🔍 Debug - Final payload createdBy:', payload.createdBy);
+      // console.log('🔍 Debug - Final payload createdBy:', payload.createdBy);
       
       if (editingSpecial) {
         await specialsAPI.update(editingSpecial._id, payload);

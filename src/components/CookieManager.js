@@ -18,11 +18,11 @@ export function setCookie(name, value, days = 7) {
     }
     
     document.cookie = cookieString;
-    console.log(`🍪 Set cookie: ${name}`, { 
-      value: value ? '***' : 'empty', 
-      hostname: window.location.hostname,
-      isProduction 
-    });
+    // console.log(`🍪 Set cookie: ${name}`, { 
+    //   value: value ? '***' : 'empty', 
+    //   hostname: window.location.hostname,
+    //   isProduction 
+    // });
   }
   
   export function getCookie(name) {
@@ -30,11 +30,11 @@ export function setCookie(name, value, days = 7) {
       const [key, val] = v.split('=');
       return key === name ? decodeURIComponent(val) : r;
     }, '');
-    console.log(`🍪 Get cookie: ${name}`, { 
-      value: value ? '***' : 'empty', 
-      hostname: window.location.hostname,
-      allCookies: document.cookie 
-    });
+    // console.log(`🍪 Get cookie: ${name}`, { 
+    //   value: value ? '***' : 'empty', 
+    //   hostname: window.location.hostname,
+    //   allCookies: document.cookie 
+    // });
     return value;
   }
   
