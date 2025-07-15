@@ -94,10 +94,11 @@ const MenuItems = () => {
             price: newItem.price
         });
         if (response.data && response.data.savedItem) {
-                setMenu([...menu, response.data.savedItem]);
+                setMenu([response.data.savedItem, ...menu]);
             }
         
         setNewItem({ name: '', price: 0, available: true, category: '' });
+        setShowAddForm(false);
         } catch (error) {
             console.error('Error adding item:', error);
         }
