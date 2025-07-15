@@ -97,7 +97,7 @@ const Layout = ({ children, container }) => {
             >
               About
             </Link>
-<<<<<<< HEAD
+
             {token && role === 'customer' && (
               <Link
                 to="/customer/dashboard"
@@ -106,6 +106,7 @@ const Layout = ({ children, container }) => {
                 My Dashboard
               </Link>
             )}
+
             {token && (role === 'admin' || role === 'manager') && (
               <Link
                 to={role === 'admin' ? '/admin/customers' : '/manager/customers'}
@@ -113,10 +114,10 @@ const Layout = ({ children, container }) => {
               >
                 Customers
               </Link>
-=======
+            )}
+
             {(role === 'manager' || role === 'admin') && (
               <Link to="/manager/specials" className={`nav-link${location.pathname === '/manager/specials' ? ' active' : ''}`}>Manage Specials</Link>
->>>>>>> origin/main
             )}
             {!token && !isAuthPage && (
               <Link to="/login" className="hidden md:inline-block">
@@ -171,12 +172,13 @@ const Layout = ({ children, container }) => {
             <Link to="/menu" onClick={() => setMobileNavOpen(false)}>Menu</Link>
             <Link to="/specials" onClick={() => setMobileNavOpen(false)}>🎯 Specials</Link>
             <Link to="/about" onClick={() => setMobileNavOpen(false)}>About</Link>
-<<<<<<< HEAD
+
             {token && role === 'customer' && (
               <Link to="/customer/dashboard" onClick={() => setMobileNavOpen(false)}>
                 My Dashboard
               </Link>
             )}
+
             {token && (role === 'admin' || role === 'manager') && (
               <Link 
                 to={role === 'admin' ? '/admin/customers' : '/manager/customers'} 
@@ -184,11 +186,12 @@ const Layout = ({ children, container }) => {
               >
                 Customers
               </Link>
-=======
-            
+            )}
+
             {(role === 'manager' || role === 'admin') && (
-              <Link to="/manager/specials" onClick={() => setMobileNavOpen(false)}>Manage Specials</Link>
->>>>>>> origin/main
+              <Link to="/manager/specials" onClick={() => setMobileNavOpen(false)}>
+                Manage Specials
+              </Link>
             )}
             {!token && !isAuthPage && (
               <Link to="/login" className="md:hidden" style={{ marginLeft: 16 }}>
