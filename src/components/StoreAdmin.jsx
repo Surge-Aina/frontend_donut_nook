@@ -93,16 +93,22 @@ const StoreAdmin = () => {
   useEffect(() => {
     const fetchStoreInfo = async () => {
       try {
+        console.log('Fetching store info from:', API_URL);
+        
         const [infoRes, timingsRes] = await Promise.all([
-          axios.get(`${API_URL}/store-info`),
-          axios.get(`${API_URL}/store-info/timings`).catch(error => {
-            // Using default timings
+          axios.get(`${API_URL}/store-info`, { withCredentials: true }),
+          axios.get(`${API_URL}/store-info/timings`, { withCredentials: true }).catch(error => {
+          }).catch(error => {
+            console.warn('Using default timings due to error:', error.message);
             return { data: {} }; // Return empty object if timings endpoint fails
           })
         ]);
 
-        const { storeName, address, phone, specialHours } = infoRes.data;
-        const timings = timingsRes.data?.data || timingsRes.data || {}; // Handle both response formats
+        console.log('Store info response:', infoRes);
+        console.log('Timings response:', timingsRes);
+
+        const { storeName, address, phone, specialHours } = infoRes?.data || {};
+        const timings = timingsRes?.data?.data || timingsRes?.data || {}; // Handle both response formats
         
 
         
