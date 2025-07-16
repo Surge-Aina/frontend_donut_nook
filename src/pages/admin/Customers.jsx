@@ -8,7 +8,9 @@ const Customers = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
-  useEffect(() => {
+  // Helper to fetch customers
+  const fetchCustomers = () => {
+    setLoading(true);
     getCustomers()
       .then(data => {
         setCustomers(data);
@@ -18,6 +20,10 @@ const Customers = () => {
         setError('Failed to fetch customers');
         setLoading(false);
       });
+  };
+
+  useEffect(() => {
+    fetchCustomers();
   }, []);
 
   const handleRemoveLoyalty = async (customerId) => {
@@ -30,26 +36,6 @@ const Customers = () => {
     await deleteCustomer(customerId);
     fetchCustomers();
   };
-
-  async function removeLoyaltyPoint(customerId) {
-    await fetch(`${API_BASE}/customers/${customerId}/loyalty`, {
-      method: 'PATCH',
-      headers: {
-        'Authorization': `Bearer ${localStorage.getItem('token')}`,
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ delta: -1 })
-    });
-  }
-  async function deleteCustomer(customerId) {
-    await fetch(`${API_BASE}/customers/${customerId}`, {
-      method: 'DELETE',
-      headers: {
-        'Authorization': `Bearer ${localStorage.getItem('token')}`,
-        'Content-Type': 'application/json'
-      }
-    });
-  }
 
   return (
     <Layout>

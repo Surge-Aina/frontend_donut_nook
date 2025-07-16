@@ -1,14 +1,16 @@
 // Manager & Admin: assign loyalty points
 import React, { useEffect, useState } from 'react';
 import Layout from '../../components/Layout';
-import { getCustomers } from '../../utils/api';
+import { getCustomers, addLoyaltyPoint, subtractLoyaltyPoint, updateLoyaltyPoints } from '../../utils/api';
 
 const Customers = () => {
   const [customers, setCustomers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
-  useEffect(() => {
+  // Helper to fetch customers
+  const fetchCustomers = () => {
+    setLoading(true);
     getCustomers()
       .then(data => {
         setCustomers(data);
@@ -18,45 +20,25 @@ const Customers = () => {
         setError('Failed to fetch customers');
         setLoading(false);
       });
+  };
+
+  useEffect(() => {
+    fetchCustomers();
   }, []);
 
   const handleAddLoyalty = async (customerId) => {
-    // Call API to add loyalty point
     await addLoyaltyPoint(customerId);
-    // Refresh data
     fetchCustomers();
   };
   const handleEditLoyalty = (customerId) => {
     const newPoints = prompt('Enter new loyalty points value:');
     if (newPoints === null) return;
-    updateLoyaltyPoints(customerId, Number(newPoints));
+    updateLoyaltyPoints(customerId, Number(newPoints)).then(fetchCustomers);
   };
-  const handleSubtractLoyalty = async (customerId, currentPoints) => {
-    const newPoints = Math.max(0, currentPoints - 1);
-    await updateLoyaltyPoints(customerId, newPoints);
-  };
-
-  async function addLoyaltyPoint(customerId) {
-    await fetch(`${API_BASE}/customers/${customerId}/loyalty`, {
-      method: 'PATCH',
-      headers: {
-        'Authorization': `Bearer ${localStorage.getItem('token')}`,
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ delta: 1 })
-    });
-  }
-  async function updateLoyaltyPoints(customerId, points) {
-    await fetch(`${API_BASE}/customers/${customerId}/loyalty`, {
-      method: 'PUT',
-      headers: {
-        'Authorization': `Bearer ${localStorage.getItem('token')}`,
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ points })
-    });
+  const handleSubtractLoyalty = async (customerId) => {
+    await subtractLoyaltyPoint(customerId);
     fetchCustomers();
-  }
+  };
 
   return (
     <Layout>
@@ -87,7 +69,7 @@ const Customers = () => {
                   <td>
                     {c.loyaltyPoints ?? '-'}
                     <button className="loyalty-plus-btn" title="Add Loyalty Point" onClick={() => handleAddLoyalty(c._id)}>+</button>
-                    <button className="loyalty-minus-btn" title="Subtract Loyalty Point" onClick={() => handleSubtractLoyalty(c._id, c.loyaltyPoints)}>-</button>
+                    <button className="loyalty-minus-btn" title="Subtract Loyalty Point" onClick={() => handleSubtractLoyalty(c._id)}>-</button>
                   </td>
                   <td>
                     <ul className="purchase-list">

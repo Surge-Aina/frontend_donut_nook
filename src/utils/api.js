@@ -93,6 +93,42 @@ export async function resetLoyaltyPoints(customerId) {
   });
 }
 
+// Add loyalty point to a customer (manager only)
+export async function addLoyaltyPoint(customerId) {
+  return fetch(`${API_BASE}/customers/${customerId}/loyalty`, {
+    method: 'PATCH',
+    headers: {
+      'Authorization': `Bearer ${localStorage.getItem('token')}`,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ delta: 1 })
+  });
+}
+
+// Subtract loyalty point from a customer (manager only)
+export async function subtractLoyaltyPoint(customerId) {
+  return fetch(`${API_BASE}/customers/${customerId}/loyalty`, {
+    method: 'PATCH',
+    headers: {
+      'Authorization': `Bearer ${localStorage.getItem('token')}`,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ delta: -1 })
+  });
+}
+
+// Update loyalty points for a customer (manager only)
+export async function updateLoyaltyPoints(customerId, points) {
+  return fetch(`${API_BASE}/customers/${customerId}/loyalty`, {
+    method: 'PATCH',
+    headers: {
+      'Authorization': `Bearer ${localStorage.getItem('token')}`,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ points })
+  });
+}
+
 // Specials API functions
 export const specialsAPI = {
   // Get all specials
