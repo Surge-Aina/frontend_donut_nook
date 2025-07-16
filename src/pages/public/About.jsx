@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Layout from '../../components/Layout';
 import ReactMarkdown from 'react-markdown';
+import { motion } from 'framer-motion';
+import PageWrapper from '../../components/PageWrapper';
 
 const About = () => {
   const [content, setContent] = useState('');
@@ -23,9 +25,11 @@ const About = () => {
 
   return (
     <Layout>
-      <h1>About Donut Nook</h1>
-      {error && <p style={{ color: 'red' }}>{error}</p>}
-      <ReactMarkdown>{content}</ReactMarkdown>
+      <PageWrapper>
+        <h1>About Donut Nook</h1>
+        {error && <p style={{ color: 'red' }}>{error}</p>}
+        <ReactMarkdown>{content}</ReactMarkdown>
+      </PageWrapper>
     </Layout>
   );
 };

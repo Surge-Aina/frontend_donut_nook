@@ -1,3 +1,5 @@
+import { toast } from 'react-toastify';
+
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { setCookie, getCookie } from '../../components/CookieManager';
@@ -62,6 +64,7 @@ const Auth = () => {
       else navigate('/home');
     } catch (err) {
       setError(err.response?.data?.error || 'Authentication failed');
+      toast.error("Authentication failed!");
     } finally {
       setLoading(false);
     }
