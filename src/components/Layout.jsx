@@ -215,6 +215,7 @@ const Layout = ({ children, container }) => {
           width: '100%',
           padding: '2rem 0.5rem',
           display: 'flex',
+          flexDirection: 'column',
           justifyContent: 'center'
         }}
       >
