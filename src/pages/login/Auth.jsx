@@ -63,6 +63,12 @@ const Auth = () => {
         console.log('🔐 Stored userId in both cookie and localStorage:', userId);
       }
 
+      // Also persist token in localStorage for API helpers
+      if (data.token) localStorage.setItem('token', data.token);
+      if (data.role) localStorage.setItem('role', data.role);
+      if (data.name) localStorage.setItem('name', data.name);
+      if (data.email) localStorage.setItem('email', data.email);
+
       // Redirect based on role
       if (data.role === 'admin') navigate('/admin/dashboard');
       else if (data.role === 'manager') navigate('/manager/dashboard');
