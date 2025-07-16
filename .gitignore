@@ -33,6 +33,3 @@ cypress/videos/
 cypress/screenshots/
 cypress/e2e/pages.cy.js.snap
 cypress/e2e/pages.cy.js.meta
-
-# too large to push to github
-public/img/donut-mascot.png

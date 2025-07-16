@@ -6,6 +6,7 @@ const API_BASE = process.env.REACT_APP_API_BASE_URL || 'http://localhost:5100';
 // Create axios instance with base URL
 const api = axios.create({
   baseURL: API_BASE,
+  withCredentials: true, // Required for cross-origin cookies
   headers: {
     'Content-Type': 'application/json',
   },
@@ -30,6 +31,102 @@ api.interceptors.request.use((config) => {
 export async function getPing() {
   return fetch(`${API_BASE}/test/ping`)
     .then(res => res.json());
+}
+
+
+// Fetch all customers (admin/manager only)
+export async function getCustomers() {
+  return fetch(`${API_BASE}/customers`, {
+    headers: {
+      'Authorization': `Bearer ${localStorage.getItem('token')}`,
+      'Content-Type': 'application/json'
+    }
+  })
+    .then(res => res.json())
+    .then(data => Array.isArray(data) ? data : []);
+}
+
+// Fetch current customer's data
+export async function getCurrentCustomer() {
+  return fetch(`${API_BASE}/customers/me`, {
+    headers: {
+      'Authorization': `Bearer ${localStorage.getItem('token')}`,
+      'Content-Type': 'application/json'
+    }
+  })
+    .then(res => {
+      if (!res.ok) throw new Error('Failed to fetch customer data');
+      return res.json();
+    });
+}
+
+// Create a new customer
+export async function createCustomer(data) {
+  return fetch(`${API_BASE}/customers`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(data),
+  }).then(res => res.json());
+}
+
+
+// Delete a customer (admin only)
+export async function deleteCustomer(customerId) {
+  return fetch(`${API_BASE}/customers/${customerId}`, {
+    method: 'DELETE',
+    headers: {
+      'Authorization': `Bearer ${localStorage.getItem('token')}`,
+      'Content-Type': 'application/json'
+    }
+  });
+}
+
+// Reset loyalty points to zero (admin only)
+export async function resetLoyaltyPoints(customerId) {
+  return fetch(`${API_BASE}/customers/${customerId}/loyalty`, {
+    method: 'PATCH',
+    headers: {
+      'Authorization': `Bearer ${localStorage.getItem('token')}`,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ points: 0 })
+  });
+}
+
+// Add loyalty point to a customer (manager only)
+export async function addLoyaltyPoint(customerId) {
+  return fetch(`${API_BASE}/customers/${customerId}/loyalty`, {
+    method: 'PATCH',
+    headers: {
+      'Authorization': `Bearer ${localStorage.getItem('token')}`,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ delta: 1 })
+  });
+}
+
+// Subtract loyalty point from a customer (manager only)
+export async function subtractLoyaltyPoint(customerId) {
+  return fetch(`${API_BASE}/customers/${customerId}/loyalty`, {
+    method: 'PATCH',
+    headers: {
+      'Authorization': `Bearer ${localStorage.getItem('token')}`,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ delta: -1 })
+  });
+}
+
+// Update loyalty points for a customer (manager only)
+export async function updateLoyaltyPoints(customerId, points) {
+  return fetch(`${API_BASE}/customers/${customerId}/loyalty`, {
+    method: 'PATCH',
+    headers: {
+      'Authorization': `Bearer ${localStorage.getItem('token')}`,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ points })
+  });
 }
 
 // Specials API functions
@@ -58,5 +155,6 @@ export const specialsAPI = {
     return response.data;
   }
 };
+
 
 // DO NOT hardcode URLs elsewhere; always use this file

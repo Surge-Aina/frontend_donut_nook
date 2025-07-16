@@ -4,7 +4,6 @@
 /* Use Tailwind for most styling; this is for overrides */
 
 
-
 /* Do not make changes in the files which are approved, please ask for permisions and access from Rimma, 
     if new code is added please add the comment <Not Approved> */
 
@@ -18,11 +17,9 @@ This sections should look like this when approved: by Rimma
   } 
 */
 
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
 @import url('https://fonts.googleapis.com/css2?family=Luckiest+Guy&family=Montserrat:wght@400;700&family=Playfair+Display:wght@700&display=swap');
 body {
     /*Approved*/
@@ -37,15 +34,12 @@ a {
     color: inherit;
 }
 
-
 h1,
 h2,
 h3,
 h4,
 h5,
 h6 {
-
-
     /*Approved*/
     margin: 0;
     color: #392504;
@@ -55,7 +49,6 @@ h6 {
     font-family: 'Luckiest Guy', 'Comic Sans MS', 'Comic Sans', Arial, sans-serif;
 }
 
-
 @media (min-width: 640px) {
     /*Approved*/
     h1,
@@ -64,12 +57,10 @@ h6 {
     h4,
     h5,
     h6 {
-
         /* larger on tablets/desktops */
         font-size: 2rem;
     }
 }
-
 
 button {
     /*Approved*/
@@ -110,8 +101,6 @@ select {
     transition: border-color 0.15s, box-shadow 0.15s;
 }
 
-
-
 .nav-link {
     /*Approved*/
     position: relative;
@@ -136,7 +125,6 @@ select {
 }
 
 
-
 /* For accessibility */
 
 input:focus,
@@ -158,9 +146,7 @@ label {
 }
 
 
-
 /* Login/Signup container styles */
-
 
 .centered-container {
     /*Approved*/
@@ -175,10 +161,8 @@ label {
 
 /* Everything below is Approved but might be moved from global later*/
 
-
 .auth-box {
     /*Approved*/
-
     width: 100%;
     max-width: 400px;
     background: rgb(255, 252, 252);
@@ -195,9 +179,7 @@ label {
 .auth-box input,
 .auth-box button,
 .auth-box form button {
-
     /*Approved*/
-
     width: 100%;
     max-width: 320px;
     margin: 0.5em auto;
@@ -205,9 +187,7 @@ label {
 }
 
 .auth-box form {
-
     /*Approved*/
-
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -215,25 +195,23 @@ label {
 }
 
 .auth-box .mt-4 {
-
     /*Approved*/
-
     padding-top: 1rem;
     border-top: 1px solid #f3f4f6;
     width: 100%;
 }
 
 @media (min-width: 480px) {
-
     /*Approved*/
-
     .auth-box {
         padding: 32px 32px;
         margin: 32px auto;
     }
 }
 
+
 /* interns: add utilities or overrides here, avoid lengthy rules */
+
 
 /************************************************
  * Menu page styles - IN PROGRESS
@@ -336,4 +314,58 @@ label {
     margin-top: 8px;
     font-size: 0.95rem;
     color: #392504;
+}
+
+
+/* for the favorite function */
+
+.customer-table {
+  /*Approved*/
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1.5rem;
+  background: #fffdfa;
+  font-family: inherit;
+  font-size: 1rem;
+  box-shadow: 0 2px 8px rgba(60, 40, 20, 0.04);
+}
+.customer-table th, .customer-table td {
+  /*Approved*/
+  border: 1px solid #e2cfa5;
+  padding: 0.75em 1em;
+  text-align: left;
+}
+.customer-table th {
+  /*Approved*/
+  background: #f5da41;
+  color: #392504;
+  font-weight: 700;
+}
+.customer-table tr:nth-child(even) {
+  /*Approved*/
+  background: #fff7e0;
+}
+.customer-table tr:hover {
+  /*Approved*/
+  background: #f9eab0;
+}
+
+.purchase-list {
+  /*Approved*/
+  margin: 0;
+  padding-left: 1.25em;
+  list-style-type: disc;
+}
+
+
+.favorite-icon:hover { /*In Progress*/
+  transform: scale(1.2); 
+}
+
+.favorite-icon {
+    /*In Progress*/
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: #ff85a1;
+    transition: transform 0.2s ease-in-out;
 }

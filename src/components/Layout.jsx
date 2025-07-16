@@ -17,6 +17,12 @@ const Layout = ({ children, container }) => {
     eraseCookie('email');
     eraseCookie('role');
     eraseCookie('userId');
+    // Also clear localStorage
+    localStorage.removeItem('token');
+    localStorage.removeItem('userId');
+    localStorage.removeItem('name');
+    localStorage.removeItem('email');
+    localStorage.removeItem('role');
     navigate('/login');
   };
 
@@ -91,6 +97,25 @@ const Layout = ({ children, container }) => {
             >
               About
             </Link>
+
+            {token && role === 'customer' && (
+              <Link
+                to="/customer/dashboard"
+                className={`nav-link${location.pathname === '/customer/dashboard' ? ' active' : ''}`}
+              >
+                My Dashboard
+              </Link>
+            )}
+
+            {token && (role === 'admin' || role === 'manager') && (
+              <Link
+                to={role === 'admin' ? '/admin/customers' : '/manager/customers'}
+                className={`nav-link${location.pathname.includes('/customers') ? ' active' : ''}`}
+              >
+                Customers
+              </Link>
+            )}
+
             {(role === 'manager' || role === 'admin') && (
               <Link to="/manager/specials" className={`nav-link${location.pathname === '/manager/specials' ? ' active' : ''}`}>Manage Specials</Link>
             )}
@@ -147,9 +172,26 @@ const Layout = ({ children, container }) => {
             <Link to="/menu" onClick={() => setMobileNavOpen(false)}>Menu</Link>
             <Link to="/specials" onClick={() => setMobileNavOpen(false)}>🎯 Specials</Link>
             <Link to="/about" onClick={() => setMobileNavOpen(false)}>About</Link>
-            
+
+            {token && role === 'customer' && (
+              <Link to="/customer/dashboard" onClick={() => setMobileNavOpen(false)}>
+                My Dashboard
+              </Link>
+            )}
+
+            {token && (role === 'admin' || role === 'manager') && (
+              <Link 
+                to={role === 'admin' ? '/admin/customers' : '/manager/customers'} 
+                onClick={() => setMobileNavOpen(false)}
+              >
+                Customers
+              </Link>
+            )}
+
             {(role === 'manager' || role === 'admin') && (
-              <Link to="/manager/specials" onClick={() => setMobileNavOpen(false)}>Manage Specials</Link>
+              <Link to="/manager/specials" onClick={() => setMobileNavOpen(false)}>
+                Manage Specials
+              </Link>
             )}
             {!token && !isAuthPage && (
               <Link to="/login" className="md:hidden" style={{ marginLeft: 16 }}>
@@ -173,6 +215,7 @@ const Layout = ({ children, container }) => {
           width: '100%',
           padding: '2rem 0.5rem',
           display: 'flex',
+          flexDirection: 'column',
           justifyContent: 'center'
         }}
       >

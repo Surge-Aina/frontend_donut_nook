@@ -14,6 +14,7 @@ import Specials from './pages/public/Specials';
 import About from './pages/public/About';
 import Store from './pages/public/Store';
 import Customer from './pages/public/Customer';
+import CustomerDashboard from './pages/public/CustomerDashboard';
 import Contact from './pages/public/Contact';
 
 // Manager/Admin shared
@@ -59,14 +60,15 @@ const App = () => {
       <Routes location={location} key={location.pathname}>
         <Route path="/" element={<Navigate to="/home" />} />
 
-        {/* Public */}
-        <Route path="/home" element={<Home />} />
-        <Route path="/menu" element={<Menu />} />
-        <Route path="/specials" element={<Specials />} />
-        <Route path="/about" element={<About />} />
-        <Route path="/store" element={<Store />} />
-        <Route path="/customer" element={<Customer />} />
-        <Route path="/contact" element={<Contact />} />
+      {/* Public */}
+      <Route path="/home" element={<Home />} />
+      <Route path="/menu" element={<Menu />} />
+      <Route path="/specials" element={<Specials />} />
+      <Route path="/about" element={<About />} />
+      <Route path="/store" element={<Store />} />
+      <Route path="/customer" element={<Customer />} />
+      <Route path="/customer/dashboard" element={<CustomerDashboard />} />
+      <Route path="/contact" element={<Contact />} />
 
         {/* Login */}
         <Route path="/login" element={<Auth />} />
