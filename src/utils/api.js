@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 // Central API helper: should add functions here for backend calls
-const API_BASE = process.env.REACT_APP_API_URL || 'http://localhost:5100';
+const API_BASE = process.env.REACT_APP_API_BASE_URL || 'http://localhost:5100';
 
 // Create axios instance with base URL
 const api = axios.create({

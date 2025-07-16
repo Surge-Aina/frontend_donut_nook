@@ -4,7 +4,7 @@ import axios from 'axios';
 import StoreCard from './StoreCard';
 import { getCookie } from './CookieManager';
 
-const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5100';
+const API_URL = process.env.REACT_APP_API_BASE_URL || 'http://localhost:5100';
 
 // Convert 12-hour format (hh:mm AM/PM) to 24-hour format (HH:mm)
 const formatTimeTo24Hour = (timeStr) => {

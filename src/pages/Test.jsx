@@ -7,7 +7,7 @@ function Test() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch(`${process.env.REACT_APP_API_URL}/test/ping`)
+    fetch(`${process.env.REACT_APP_API_BASE_URL}/test/ping`)
       .then(res => res.json())
       .then(data => {
         setBackendMessage(data.message);
