@@ -1,3 +1,4 @@
+import { toast } from 'react-toastify';
 import React, { useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { getCookie, eraseCookie } from './CookieManager';
@@ -23,6 +24,9 @@ const Layout = ({ children, container }) => {
     localStorage.removeItem('name');
     localStorage.removeItem('email');
     localStorage.removeItem('role');
+
+    toast.success('You have been logged out successfully!');
+
     navigate('/login');
   };
 

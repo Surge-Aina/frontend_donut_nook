@@ -1,6 +1,8 @@
 // Manager & Admin: assign loyalty points
+import { toast } from 'react-toastify';
 import React, { useEffect, useState } from 'react';
 import Layout from '../../components/Layout';
+import PageWrapper from '../../components/PageWrapper';
 import { getCustomers, addLoyaltyPoint, subtractLoyaltyPoint, updateLoyaltyPoints } from '../../utils/api';
 
 const Customers = () => {
@@ -34,6 +36,7 @@ const Customers = () => {
     const newPoints = prompt('Enter new loyalty points value:');
     if (newPoints === null) return;
     updateLoyaltyPoints(customerId, Number(newPoints)).then(fetchCustomers);
+    toast.success('Loyalty point updated!');
   };
   const handleSubtractLoyalty = async (customerId) => {
     await subtractLoyaltyPoint(customerId);
@@ -42,6 +45,7 @@ const Customers = () => {
 
   return (
     <Layout>
+      <PageWrapper>
       <h1>Manager: Customers</h1>
       {loading ? <div>Loading...</div> : error ? <div style={{color:'red'}}>{error}</div> : (
         <table className="customer-table">
@@ -97,6 +101,7 @@ const Customers = () => {
           </tbody>
         </table>
       )}
+      </PageWrapper>
     </Layout>
   );
 };
