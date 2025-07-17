@@ -4,6 +4,7 @@ import Layout from '../../components/Layout';
 import { FiEdit2, FiTrash2, FiX } from 'react-icons/fi';
 import { motion } from 'framer-motion';
 import PageWrapper from '../../components/PageWrapper';
+import { toast } from 'react-toastify';
 
 const About = () => {
   const [sections, setSections] = useState([]);
@@ -47,6 +48,7 @@ const About = () => {
       );
       setNewSection({ title: '', content: '' });
       fetchSections();
+      toast.success('Section added successfully!');
     } catch (err) {
       console.error('Error adding section:', err);
     }
@@ -62,6 +64,7 @@ const About = () => {
       );
       setEditingSection(null);
       fetchSections();
+      toast.success('Section edited successfully!');
     } catch (err) {
       console.error('Error editing section:', err);
     }
@@ -75,6 +78,7 @@ const About = () => {
         { headers: { Authorization: `Bearer ${token}` } }
       );
       fetchSections();
+      toast.success('Section deleted successfully!');
     } catch (err) {
       console.error('Error deleting section:', err);
     }

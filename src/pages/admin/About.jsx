@@ -3,7 +3,6 @@ import axios from 'axios';
 import Layout from '../../components/Layout';
 import { getCookie } from '../../components/CookieManager';
 import PageWrapper from '../../components/PageWrapper';
-import { toast } from 'react-toastify';
 
 const AdminAbout = () => {
   const [content, setContent] = useState('');
