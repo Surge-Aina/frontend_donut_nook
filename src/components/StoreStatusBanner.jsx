@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { isStoreOpen, getNextOpeningTime } from '../utils/storeStatus';
+import { useLoading } from '../utils/LoadingContext';
 
 const API_URL = process.env.REACT_APP_API_BASE_URL || 'http://localhost:5100/api';
 
 const StoreStatusBanner = () => {
   const [isOpen, setIsOpen] = useState(null);
   const [nextOpening, setNextOpening] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const {isLoading, setIsLoading} = useLoading();
   const [error, setError] = useState(null);
   const [storeName, setStoreName] = useState('The Donut Nook');
   const [isVisible, setIsVisible] = useState(true);
