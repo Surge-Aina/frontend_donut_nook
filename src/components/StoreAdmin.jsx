@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import StoreCard from './StoreCard';
 import { getCookie } from './CookieManager';
+import toast from './toastLogger'; 
 
 const API_URL = process.env.REACT_APP_API_BASE_URL || 'http://localhost:5100';
 
@@ -336,6 +337,7 @@ const StoreAdmin = () => {
       
       setIsEditing(false);
       // Success message removed
+      toast.success('Store info successfully updated!');
     } catch (error) {
       console.error('Error updating store info:', error);
       // Keep error alert for debugging
