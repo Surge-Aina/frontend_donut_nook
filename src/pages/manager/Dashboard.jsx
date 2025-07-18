@@ -1,11 +1,14 @@
 // Manager & Admin: limited dashboard overview
 import React from 'react';
 import Layout from '../../components/Layout';
+import PageWrapper from '../../components/PageWrapper';
 
 const Dashboard = () => (
   <Layout>
-    <h1>Manager Dashboard</h1>
-    {/* TODO: show manager-specific stats */}
+    <PageWrapper>
+      <h1>Manager Dashboard</h1>
+      {/* TODO: show manager-specific stats */}
+    </PageWrapper>
   </Layout>
 );
 

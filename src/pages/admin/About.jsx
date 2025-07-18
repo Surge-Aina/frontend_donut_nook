@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Layout from '../../components/Layout';
 import { getCookie } from '../../components/CookieManager';
+import PageWrapper from '../../components/PageWrapper';
 
 const AdminAbout = () => {
   const [content, setContent] = useState('');
@@ -46,20 +47,22 @@ const AdminAbout = () => {
 
   return (
     <Layout>
-      <h1>Admin: Edit About</h1>
-      {error && <p style={{ color: 'red' }}>{error}</p>}
-      {success && <p style={{ color: 'green' }}>{success}</p>}
-      <form onSubmit={handleSubmit}>
-        <textarea
-          rows="10"
-          cols="80"
-          value={content}
-          onChange={handleChange}
-          placeholder="Edit about content here..."
-        />
-        <br />
-        <button type="submit">Save</button>
-      </form>
+      <PageWrapper>
+        <h1>Admin: Edit About</h1>
+        {error && <p style={{ color: 'red' }}>{error}</p>}
+        {success && <p style={{ color: 'green' }}>{success}</p>}
+        <form onSubmit={handleSubmit}>
+          <textarea
+            rows="10"
+            cols="80"
+            value={content}
+            onChange={handleChange}
+            placeholder="Edit about content here..."
+          />
+          <br />
+          <button type="submit">Save</button>
+        </form>
+      </PageWrapper>
     </Layout>
   );
 };

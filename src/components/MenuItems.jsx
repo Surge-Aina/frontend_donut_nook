@@ -1,3 +1,4 @@
+import { toast } from 'react-toastify';
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import MenuItemCard from './MenuItemCard';
@@ -52,6 +53,11 @@ const MenuItems = () => {
         try {
             const response = await axios.put(`${process.env.REACT_APP_API_BASE_URL}/menu/${id}/favorite`);
             setMenu(menu.map(item => item._id === id ? response.data : item));
+            if (response.data.isFavorite) {
+                toast.success('Menu item added to favorites ❤️');
+            } else {
+                toast.info('Menu item removed from favorites 💔');
+            }
         } catch (error) {
             console.error("Failed to update favorite status:", error);
         }
@@ -76,6 +82,7 @@ const MenuItems = () => {
             const response = await axios.patch(`${process.env.REACT_APP_API_BASE_URL}/menu/${Id}`, formData);
             setMenu(menu.map(item => item.itemId === Id ? response.data : item));
             setEditingId(null);
+            toast.success('Menu item updated successfully!');
         } catch (error) {
             console.error("error updating item:", error);
         }
@@ -95,6 +102,7 @@ const MenuItems = () => {
         });
         if (response.data && response.data.savedItem) {
                 setMenu([response.data.savedItem, ...menu]);
+                toast.success("Menu item added successfully!");
             }
         
         setNewItem({ name: '', price: 0, available: true, category: '' });
@@ -107,6 +115,7 @@ const MenuItems = () => {
         try {
             await axios.delete(`${process.env.REACT_APP_API_BASE_URL}/menu/${itemId}`);
             setMenu(menu.filter(item => item.itemId !== itemId));
+            toast.success('Menu item deleted!');
         } catch (error) {
             console.error("Error deleting item:", error);
         }

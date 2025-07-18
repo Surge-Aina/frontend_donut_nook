@@ -1,10 +1,12 @@
 // Manager & Admin: create/edit specials
+import { toast } from 'react-toastify';
 import React, { useState, useEffect } from 'react';
 import Layout from '../../components/Layout';
 import { specialsAPI } from '../../utils/api';
 import SpecialForm from '../../components/SpecialForm';
 import SpecialCardEdit from '../../components/SpecialCardEdit';
 import { getCookie, setCookie } from '../../components/CookieManager';
+import PageWrapper from '../../components/PageWrapper';
 
 const Specials = () => {
   const [specials, setSpecials] = useState([]);
@@ -47,6 +49,7 @@ const Specials = () => {
         await specialsAPI.delete(special._id);
         fetchSpecials();
         setError(null);
+        toast.success('Special deleted!');
       } catch (err) {
         setError('Failed to delete special: ' + err.message);
       }
@@ -116,8 +119,10 @@ const Specials = () => {
       
       if (editingSpecial) {
         await specialsAPI.update(editingSpecial._id, payload);
+        toast.success('Special updated successfully!');
       } else {
         await specialsAPI.create(payload);
+        toast.success('Special created successfully!');
       }
       setShowForm(false);
       setEditingSpecial(null);
@@ -138,6 +143,7 @@ const Specials = () => {
 
   return (
     <Layout>
+      <PageWrapper>
       <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '20px' }}>
         <h1 style={{ 
           color: '#8B4513', 
@@ -230,6 +236,7 @@ const Specials = () => {
           )}
         </div>
       </div>
+      </PageWrapper>
     </Layout>
   );
 };

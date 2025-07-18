@@ -1,7 +1,9 @@
 // Admin-only: view/add/remove customers + loyalty control
+import { toast } from 'react-toastify';
 import React, { useEffect, useState } from 'react';
 import Layout from '../../components/Layout';
 import { getCustomers, deleteCustomer, resetLoyaltyPoints } from '../../utils/api';
+import PageWrapper from '../../components/PageWrapper';
 
 const Customers = () => {
   const [customers, setCustomers] = useState([]);
@@ -29,16 +31,19 @@ const Customers = () => {
   const handleRemoveLoyalty = async (customerId) => {
     if (!window.confirm('Reset this customer\'s loyalty points to zero?')) return;
     await resetLoyaltyPoints(customerId);
+    toast.success('Loyalty points reset successfully!');
     fetchCustomers();
   };
   const handleDeleteCustomer = async (customerId) => {
     if (!window.confirm('Are you sure you want to delete this customer? This action cannot be undone.')) return;
     await deleteCustomer(customerId);
+    toast.success('Customer deleted successfully!');
     fetchCustomers();
   };
 
   return (
     <Layout>
+      <PageWrapper>
       <h1>Admin: Customers</h1>
       {loading ? <div>Loading...</div> : error ? <div style={{color:'red'}}>{error}</div> : (
         <table className="customer-table">
@@ -93,6 +98,7 @@ const Customers = () => {
           </tbody>
         </table>
       )}
+      </PageWrapper>
     </Layout>
   );
 };

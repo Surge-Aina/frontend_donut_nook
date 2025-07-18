@@ -5,6 +5,7 @@ import { specialsAPI } from '../../utils/api';
 import SpecialForm from '../../components/SpecialForm';
 import SpecialCardEdit from '../../components/SpecialCardEdit';
 import { getCookie, setCookie } from '../../components/CookieManager';
+import PageWrapper from '../../components/PageWrapper';
 
 const Specials = () => {
   const [specials, setSpecials] = useState([]);
@@ -138,6 +139,7 @@ const Specials = () => {
 
   return (
     <Layout>
+      <PageWrapper>
       <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '20px' }}>
         <h1 style={{ 
           color: '#8B4513', 
@@ -230,6 +232,7 @@ const Specials = () => {
           )}
         </div>
       </div>
+      </PageWrapper>
     </Layout>
   );
 };
