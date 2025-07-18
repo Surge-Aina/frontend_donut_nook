@@ -3,6 +3,7 @@
 // src/App.js
 import React from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { StoreBannerProvider } from './context/StoreBannerContext';
 
 // Public pages
 import Home from './pages/public/Home';
@@ -38,6 +39,7 @@ import Test from './pages/Test';
 
 const App = () => (
   <BrowserRouter>
+    <StoreBannerProvider>
     <Routes>
       <Route path="/" element={<Navigate to="/home" />} />
 
@@ -147,6 +149,7 @@ const App = () => (
       />
       <Route path="/test" element={<Test />} />
     </Routes>
+    </StoreBannerProvider>
   </BrowserRouter>
 );
 
