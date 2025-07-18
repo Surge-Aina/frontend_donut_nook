@@ -2,6 +2,7 @@ import toast from './toastLogger';
 import React, { useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { getCookie, eraseCookie } from './CookieManager';
+import StoreStatusBanner from './StoreStatusBanner';
 
 const Layout = ({ children, container }) => {
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
@@ -43,6 +44,7 @@ const Layout = ({ children, container }) => {
       }}
     >
       {/* Full-width header */}
+      <StoreStatusBanner />
       <header
         style={{
           width: '100%',
@@ -94,6 +96,12 @@ const Layout = ({ children, container }) => {
               className={`nav-link${location.pathname === '/specials' ? ' active' : ''}`}
             >
               🎯 Specials
+            </Link>
+            <Link
+              to="/store"
+              className={`nav-link${location.pathname === '/store' ? ' active' : ''}`}
+            >
+              🏪 Store Information
             </Link>
             <Link
               to="/about"
