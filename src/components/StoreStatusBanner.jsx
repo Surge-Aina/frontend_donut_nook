@@ -38,6 +38,7 @@ const StoreStatusBanner = () => {
   
   // Refs
   const bannerRef = useRef(null);
+  const intervalRef = useRef(null);
   
   // Effects
   useEffect(() => {
@@ -70,7 +71,7 @@ const StoreStatusBanner = () => {
         setError(null);
         
       } catch (err) {
-        console.error('Error fetching store status:', err);
+        // Error handled by error state
         setError('Unable to fetch store status');
       } finally {
         setIsLoading(false);
@@ -81,66 +82,27 @@ const StoreStatusBanner = () => {
     fetchStoreStatus();
     
     // Refresh status every minute
-    const interval = setInterval(fetchStoreStatus, 60000);
+    intervalRef.current = setInterval(fetchStoreStatus, 60000);
     
     // Cleanup interval on component unmount
-    return () => clearInterval(interval);
+    return () => clearInterval(intervalRef.current);
   }, []);
 
   useEffect(() => {
-    const fetchStoreStatus = async () => {
-      try {
-        // Fetch store info and timings in parallel
-        const [timingsResponse, infoResponse] = await Promise.all([
-          axios.get(`${API_URL}/store-info/timings`).catch(() => ({ data: {} })),
-          axios.get(`${API_URL}/store-info`).catch(() => ({}))
-        ]);
-
-        // Update store name if available
-        if (infoResponse.data?.storeName) {
-          setStoreName(infoResponse.data.storeName);
-        }
-
-        const timings = timingsResponse.data?.data || timingsResponse.data || {};
-        
-        // Check if store is currently open
-        const open = isStoreOpen(timings);
-        setIsOpen(open);
-        
-        // Get next opening time if store is closed
-        if (!open) {
-          const next = getNextOpeningTime(timings);
-          setNextOpening(next);
-        }
-        
-        // Clear any previous errors
-        setError(null);
-        
-      } catch (err) {
-        console.error('Error fetching store status:', err);
-        setError('Unable to fetch store status');
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    // Initial fetch
-    fetchStoreStatus();
-    
-    // Refresh status every minute
-    const interval = setInterval(fetchStoreStatus, 60000);
-    
-    // Add the style tag when component mounts
     const styleElement = document.createElement('style');
     styleElement.textContent = bannerStyles;
     document.head.appendChild(styleElement);
 
     // Cleanup function
     return () => {
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+      }
       document.head.removeChild(styleElement);
     };
   }, []);
-
+  
+  // Handle auto-dismiss after 2 minutes
   useEffect(() => {
     if (showBanner) {
       const timer = setTimeout(() => {
@@ -148,10 +110,10 @@ const StoreStatusBanner = () => {
         // After fade out animation completes, hide the banner
         const hideTimer = setTimeout(() => {
           hideBanner();
-        }, 1000); // Match this with the CSS animation duration
+        }, 1000); // 1 second fade out animation
         
         return () => clearTimeout(hideTimer);
-      }, 4000); // Start fade out at 4 seconds (shows for 5s total with 1s animation)
+      }, 120000); // Start fade out after 2 minutes (120,000ms)
       
       return () => clearTimeout(timer);
     }

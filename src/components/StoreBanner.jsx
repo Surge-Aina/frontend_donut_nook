@@ -13,19 +13,13 @@ const StoreStatusBanner = () => {
   const checkStatus = useCallback(async () => {
     try {
       const now = new Date();
-      console.log('Checking store status at:', now.toLocaleTimeString());
-      
       const [statusData, storeHours] = await Promise.all([
         storeAPI.getStoreStatus(),
         storeAPI.getStoreTimings()
       ]);
       
-      console.log('Fetched store hours:', storeHours);
-      
       const today = now.toLocaleDateString('en-US', { weekday: 'long' }).toLowerCase();
       const todayHours = storeHours[today];
-      
-      console.log(`Today (${today}) hours:`, todayHours);
       
       let isOpen = statusData.isOpen;
       let nextOpeningTime = statusData.nextOpeningTime;
@@ -48,13 +42,10 @@ const StoreStatusBanner = () => {
         } 
         // If current time is after closing time
         else if (now > closeTime) {
-          console.log('Current time is after closing time');
           isOpen = false;
           // Find next open day
           let daysToAdd = 1;
           let nextOpenDayFound = false;
-          
-          console.log('Looking for next open day...');
           
           // Check up to 7 days in advance
           while (daysToAdd <= 7 && !nextOpenDayFound) {
@@ -69,9 +60,6 @@ const StoreStatusBanner = () => {
               nextOpen.setHours(nextOpenHour, nextOpenMinute, 0, 0);
               nextOpeningTime = nextOpen.toISOString();
               nextOpenDayFound = true;
-              console.log(`Found next open day: ${nextDayName} at ${nextOpenHour}:${nextOpenMinute}`);
-            } else {
-              console.log(`Day ${nextDayName} is ${nextDayHours?.isClosed ? 'closed' : 'not found'}`);
             }
             
             daysToAdd++;
@@ -84,7 +72,7 @@ const StoreStatusBanner = () => {
         nextOpeningTime: nextOpeningTime
       });
     } catch (error) {
-      console.error('Error checking store status:', error);
+      // Error handled by status state
     }
   }, []);
 
@@ -97,7 +85,7 @@ const StoreStatusBanner = () => {
     
     // Listen for store timings updates
     const handleTimingsUpdated = () => {
-      console.log('Store timings updated - refreshing status');
+      // Refresh status when store timings are updated
       checkStatus();
     };
     

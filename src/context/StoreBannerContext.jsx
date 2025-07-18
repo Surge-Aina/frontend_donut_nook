@@ -21,13 +21,13 @@ export const StoreBannerProvider = ({ children }) => {
     sessionStorage.setItem('bannerHidden', 'true');
   };
 
-  // Auto-hide after 5 seconds
+  // Auto-hide after 2 minutes (120,000ms)
   useEffect(() => {
     if (!showBanner) return;
     
     const timer = setTimeout(() => {
       hideBanner();
-    }, 5000);
+    }, 120000); // 2 minutes
 
     return () => clearTimeout(timer);
   }, [showBanner]);
