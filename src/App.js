@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-route
 import { AnimatePresence } from 'framer-motion';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { LoadingProvider } from './utils/LoadingContext';
 
 // Public pages
 import Home from './pages/public/Home';
@@ -175,7 +176,10 @@ const App = () => {
 
 const AppWrapper = () => (
   <BrowserRouter>
+  <LoadingProvider>
     <App/>
+  </LoadingProvider>
+    
   </BrowserRouter>
 )
 
