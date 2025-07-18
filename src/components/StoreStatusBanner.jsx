@@ -1,15 +1,35 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { isStoreOpen, getNextOpeningTime } from '../utils/storeStatus';
+import { useLoading } from '../utils/LoadingContext';
 
 const API_URL = process.env.REACT_APP_API_BASE_URL || 'http://localhost:5100/api';
 
 const StoreStatusBanner = () => {
   const [isOpen, setIsOpen] = useState(null);
   const [nextOpening, setNextOpening] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const {isLoading, setIsLoading} = useLoading();
   const [error, setError] = useState(null);
   const [storeName, setStoreName] = useState('The Donut Nook');
+  const [isVisible, setIsVisible] = useState(true);
+
+  // Check sessionStorage when component mounts
+  useEffect(() => {
+    const bannerDismissed = sessionStorage.getItem('bannerDismissed');
+    if (bannerDismissed === 'true') {
+      setIsVisible(false);
+    }
+    
+    // Auto-hide after 5 seconds if not already dismissed
+    const timer = setTimeout(() => {
+      if (bannerDismissed !== 'true') {
+        setIsVisible(false);
+        sessionStorage.setItem('bannerDismissed', 'true');
+      }
+    }, 120000); // 2 minutes
+    
+    return () => clearTimeout(timer);
+  }, []);
 
   useEffect(() => {
     const fetchStoreStatus = async () => {
@@ -58,9 +78,13 @@ const StoreStatusBanner = () => {
     return () => clearInterval(interval);
   }, []);
 
+  if (!isVisible) {
+    return null;
+  }
+
   if (isLoading) {
     return (
-      <div className="bg-blue-50 text-blue-800 p-2 text-center text-sm">
+      <div className="bg-gray-100 text-gray-800 p-2 text-center text-sm">
         Loading store status...
       </div>
     );
@@ -68,14 +92,20 @@ const StoreStatusBanner = () => {
 
   if (error) {
     return (
-      <div className="bg-yellow-50 text-yellow-800 p-2 text-center text-sm border-b border-yellow-200">
-        {error} - Showing default hours
+      <div className="bg-red-100 text-red-800 p-2 text-center text-sm">
+        {error}
       </div>
     );
   }
 
+
+
   return (
-    <div className={`p-2 text-center text-sm font-medium border-b ${isOpen ? 'bg-green-50 text-green-800 border-green-100' : 'bg-red-50 text-red-800 border-red-100'}`}>
+    <div className={`p-2 text-center text-sm ${
+      isOpen 
+        ? 'bg-green-100 text-green-800' 
+        : 'bg-yellow-100 text-yellow-800'
+    }`}>
       {isOpen ? (
         <div className="flex items-center justify-center space-x-2">
           <span className="inline-flex items-center justify-center w-5 h-5 bg-green-100 rounded-full">

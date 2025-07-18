@@ -4,6 +4,7 @@ import axios from 'axios';
 import StoreCard from './StoreCard';
 import { getCookie } from './CookieManager';
 import toast from './toastLogger'; 
+import { useLoading } from '../utils/LoadingContext';
 
 const API_URL = process.env.REACT_APP_API_BASE_URL || 'http://localhost:5100';
 
@@ -53,7 +54,8 @@ const formatTimeTo12Hour = (timeStr) => {
 const StoreAdmin = () => {
   const navigate = useNavigate();
   const [isEditing, setIsEditing] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
+  //const [isLoading, setIsLoading] = useState(true);
+  const { isLoading, setIsLoading} = useLoading();
   const [storeInfo, setStoreInfo] = useState({
     name: "The Donut Nook",
     address: "958 East Ave A, Chico, CA 95926",
@@ -93,7 +95,9 @@ const StoreAdmin = () => {
   // Fetch store info from backend
   useEffect(() => {
     const fetchStoreInfo = async () => {
+       setIsLoading(true);
       try {
+        
         const [infoRes, timingsRes] = await Promise.all([
           axios.get(`${API_URL}/store-info`),
           axios.get(`${API_URL}/store-info/timings`).catch(error => {

@@ -7,6 +7,7 @@ import { AnimatePresence } from 'framer-motion';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import './components/toastLogger'; 
+import { LoadingProvider } from './utils/LoadingContext';
 
 // Public pages
 import Home from './pages/public/Home';
@@ -176,7 +177,10 @@ const App = () => {
 
 const AppWrapper = () => (
   <BrowserRouter>
+  <LoadingProvider>
     <App/>
+  </LoadingProvider>
+    
   </BrowserRouter>
 )
 
