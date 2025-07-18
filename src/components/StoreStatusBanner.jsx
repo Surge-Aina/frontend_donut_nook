@@ -130,17 +130,12 @@ const StoreStatusBanner = () => {
     // Refresh status every minute
     const interval = setInterval(fetchStoreStatus, 60000);
     
-    // Cleanup interval on component unmount
-    return () => clearInterval(interval);
-  }, []);
-
-  useEffect(() => {
     // Add the style tag when component mounts
     const styleElement = document.createElement('style');
     styleElement.textContent = bannerStyles;
     document.head.appendChild(styleElement);
 
-      // Cleanup function
+    // Cleanup function
     return () => {
       document.head.removeChild(styleElement);
     };
@@ -162,65 +157,6 @@ const StoreStatusBanner = () => {
     }
   }, [showBanner, hideBanner]);
 
-  useEffect(() => {
-    const fetchStoreStatus = async () => {
-      try {
-        // Fetch store info and timings in parallel
-        const [timingsResponse, infoResponse] = await Promise.all([
-          axios.get(`${API_URL}/store-info/timings`).catch(() => ({ data: {} })),
-          axios.get(`${API_URL}/store-info`).catch(() => ({}))
-        ]);
-
-        // Update store name if available
-        if (infoResponse.data?.storeName) {
-          setStoreName(infoResponse.data.storeName);
-        }
-
-        const timings = timingsResponse.data?.data || timingsResponse.data || {};
-        
-        // Check if store is currently open
-        const open = isStoreOpen(timings);
-        setIsOpen(open);
-        
-        // Get next opening time if store is closed
-        if (!open) {
-          const next = getNextOpeningTime(timings);
-          setNextOpening(next);
-        }
-        
-        // Clear any previous errors
-        setError(null);
-        
-      } catch (err) {
-        console.error('Error fetching store status:', err);
-        setError('Unable to fetch store status');
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    // Initial fetch
-    fetchStoreStatus();
-    
-    // Refresh status every minute
-    const interval = setInterval(fetchStoreStatus, 60000);
-    
-    // Cleanup interval on component unmount
-    return () => clearInterval(interval);
-  }, []);
-
-  useEffect(() => {
-    // Add the style tag when component mounts
-    const styleElement = document.createElement('style');
-    styleElement.textContent = bannerStyles;
-    document.head.appendChild(styleElement);
-
-      // Cleanup function
-    return () => {
-      document.head.removeChild(styleElement);
-    };
-  }, []);
-
   // Don't show anything until banner is initialized and data is loaded
   if (!bannerInitialized || isLoading) {
     return null;
@@ -234,8 +170,6 @@ const StoreStatusBanner = () => {
     );
   }
 
-
-
   if (!showBanner) {
     return null;
   }
@@ -246,13 +180,16 @@ const StoreStatusBanner = () => {
       className={`p-2 text-center text-sm font-medium border-b transition-all duration-300 ${isHiding ? 'banner-fade-out' : ''} ${isOpen ? 'bg-green-50 text-green-800 border-green-100' : 'bg-red-50 text-red-800 border-red-100'}`}
       onClick={hideBanner}
       style={{ cursor: 'pointer' }}
+      role="alert"
+      aria-live="polite"
     >
       {isOpen ? (
         <div className="flex items-center justify-center space-x-2">
           <span className="inline-flex items-center justify-center w-5 h-5 bg-green-100 rounded-full">
             <span className="w-2 h-2 bg-green-600 rounded-full"></span>
           </span>
-          <span>{storeName} is now open! Come visit us! {/* eslint-disable-next-line */}
+          <span>
+            {storeName} is now open! Come visit us! 
             {nextOpening && (
               <span className="hidden sm:inline-block ml-2 text-green-700">
                 (Closes at {nextOpening.time})
