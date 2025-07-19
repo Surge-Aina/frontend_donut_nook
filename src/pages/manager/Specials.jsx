@@ -1,5 +1,5 @@
 // Manager & Admin: create/edit specials
-import { toast } from 'react-toastify';
+import toast from '../../components/toastLogger';
 import React, { useState, useEffect } from 'react';
 import Layout from '../../components/Layout';
 import { specialsAPI } from '../../utils/api';

@@ -1,5 +1,5 @@
 // Admin-only: view/add/remove customers + loyalty control
-import { toast } from 'react-toastify';
+import toast from '../../components/toastLogger';
 import React, { useEffect, useState } from 'react';
 import Layout from '../../components/Layout';
 import { getCustomers, deleteCustomer, resetLoyaltyPoints } from '../../utils/api';

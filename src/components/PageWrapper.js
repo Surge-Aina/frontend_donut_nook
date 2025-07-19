@@ -1,6 +1,3 @@
-
-//PageWrapper only applied to About, Home, Menu, Specials pages right now
-
 import { motion } from 'framer-motion';
 
 const pageVariants = {
