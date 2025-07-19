@@ -37,7 +37,6 @@ const Customers = () => {
     if (newPoints === null) return;
     updateLoyaltyPoints(customerId, Number(newPoints)).then(fetchCustomers);
     toast.success('Loyalty point updated!');
-    toast.success('Loyalty point updated!');
   };
   const handleSubtractLoyalty = async (customerId) => {
     await subtractLoyaltyPoint(customerId);
@@ -46,7 +45,6 @@ const Customers = () => {
 
   return (
     <Layout>
-      <PageWrapper>
       <PageWrapper>
       <h1>Manager: Customers</h1>
       {loading ? <div>Loading...</div> : error ? <div style={{color:'red'}}>{error}</div> : (
@@ -103,7 +101,6 @@ const Customers = () => {
           </tbody>
         </table>
       )}
-      </PageWrapper>
       </PageWrapper>
     </Layout>
   );
