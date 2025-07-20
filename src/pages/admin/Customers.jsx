@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 import Layout from '../../components/Layout';
 import { getCustomers, deleteCustomer, resetLoyaltyPoints } from '../../utils/api';
 import PageWrapper from '../../components/PageWrapper';
+import CustomerInfoCardsAdmin from '../../components/CustomerInfoCardsAdmin';
 
 const Customers = () => {
   const [customers, setCustomers] = useState([]);
@@ -45,59 +46,71 @@ const Customers = () => {
     <Layout>
       <PageWrapper>
       <h1>Admin: Customers</h1>
-      {loading ? <div>Loading...</div> : error ? <div style={{color:'red'}}>{error}</div> : (
-        <table className="customer-table">
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Email</th>
-              <th>Phone</th>
-              <th>DOB</th>
-              <th>Loyalty Points</th>
-              <th>Purchase History</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {Array.isArray(customers) ? (
-              customers.length === 0 ? (
-                <tr><td colSpan={6} style={{textAlign:'center'}}>No customers found.</td></tr>
-              ) : customers.map((c, i) => (
-                <tr key={i}>
-                  <td>{c.name}</td>
-                  <td>{c.email}</td>
-                  <td>{c.phone}</td>
-                  <td>{c.dob ? new Date(c.dob).toLocaleDateString() : '-'}</td>
-                  <td>
-                    {c.loyaltyPoints ?? '-'}
-                    <button className="loyalty-minus-btn" title="Reset Loyalty Points to Zero" onClick={() => handleRemoveLoyalty(c._id)}>-</button>
-                  </td>
-                  <td>
-                    <ul className="purchase-list">
-                      {c.purchaseHistory && c.purchaseHistory.length > 0 ? (
-                        c.purchaseHistory.map((purchase, idx) => (
-                          <li key={idx}>
-                            Item: {purchase.menuItemId}, Amount: {purchase.amount}, Date: {new Date(purchase.timestamp).toLocaleDateString()}
-                          </li>
-                        ))
-                      ) : (
-                        <li>No purchases</li>
-                      )}
-                    </ul>
-                  </td>
-                  <td>
-                    <button className="delete-customer-btn" title="Delete Customer" onClick={() => handleDeleteCustomer(c._id)}>
-                      🗑️
-                    </button>
-                  </td>
-                </tr>
-              ))
-            ) : (
-              <tr><td colSpan={6} style={{textAlign:'center',color:'red'}}>Error loading customers.</td></tr>
-            )}
-          </tbody>
-        </table>
-      )}
+      {/* div for Desktop layout */}
+      <div className="hidden md:block"> 
+        {loading ? <div>Loading...</div> : error ? <div style={{color:'red'}}>{error}</div> : (
+          <table className="customer-table">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>DOB</th>
+                <th>Loyalty Points</th>
+                <th>Purchase History</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {Array.isArray(customers) ? (
+                customers.length === 0 ? (
+                  <tr><td colSpan={6} style={{textAlign:'center'}}>No customers found.</td></tr>
+                ) : customers.map((c, i) => (
+                  <tr key={i}>
+                    <td>{c.name}</td>
+                    <td>{c.email}</td>
+                    <td>{c.phone}</td>
+                    <td>{c.dob ? new Date(c.dob).toLocaleDateString() : '-'}</td>
+                    <td>
+                      {c.loyaltyPoints ?? '-'}
+                      <button className="loyalty-minus-btn" title="Reset Loyalty Points to Zero" onClick={() => handleRemoveLoyalty(c._id)}>-</button>
+                    </td>
+                    <td>
+                      <ul className="purchase-list">
+                        {c.purchaseHistory && c.purchaseHistory.length > 0 ? (
+                          c.purchaseHistory.map((purchase, idx) => (
+                            <li key={idx}>
+                              Item: {purchase.menuItemId}, Amount: {purchase.amount}, Date: {new Date(purchase.timestamp).toLocaleDateString()}
+                            </li>
+                          ))
+                        ) : (
+                          <li>No purchases</li>
+                        )}
+                      </ul>
+                    </td>
+                    <td>
+                      <button className="delete-customer-btn" title="Delete Customer" onClick={() => handleDeleteCustomer(c._id)}>
+                        🗑️
+                      </button>
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr><td colSpan={6} style={{textAlign:'center',color:'red'}}>Error loading customers.</td></tr>
+              )}
+            </tbody>
+          </table>
+        )}
+      </div>
+
+      {/* div for Mobiel Layout */}
+      <div className='block md:hidden'>
+        <CustomerInfoCardsAdmin
+          customers={customers}
+          handleDeleteCustomer={handleDeleteCustomer}
+          handleRemoveLoyalty={handleRemoveLoyalty}
+        />
+      </div>
       </PageWrapper>
     </Layout>
   );

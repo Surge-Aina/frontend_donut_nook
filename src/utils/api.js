@@ -94,26 +94,26 @@ export async function resetLoyaltyPoints(customerId) {
 }
 
 // Add loyalty point to a customer (manager only)
-export async function addLoyaltyPoint(customerId) {
+export async function addLoyaltyPoint(customerId, points) {
   return fetch(`${API_BASE}/customers/${customerId}/loyalty`, {
     method: 'PATCH',
     headers: {
       'Authorization': `Bearer ${localStorage.getItem('token')}`,
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify({ delta: 1 })
+    body: JSON.stringify({ points: points + 1})
   });
 }
 
 // Subtract loyalty point from a customer (manager only)
-export async function subtractLoyaltyPoint(customerId) {
+export async function subtractLoyaltyPoint(customerId, points) {
   return fetch(`${API_BASE}/customers/${customerId}/loyalty`, {
     method: 'PATCH',
     headers: {
       'Authorization': `Bearer ${localStorage.getItem('token')}`,
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify({ delta: -1 })
+    body: JSON.stringify({ points: points - 1})
   });
 }
 
