@@ -4,7 +4,7 @@ import Layout from '../../components/Layout';
 import { FiEdit2, FiTrash2, FiX } from 'react-icons/fi';
 import { motion } from 'framer-motion';
 import PageWrapper from '../../components/PageWrapper';
-import { toast } from 'react-toastify';
+import toast from '../../components/toastLogger';
 
 const About = () => {
   const [sections, setSections] = useState([]);

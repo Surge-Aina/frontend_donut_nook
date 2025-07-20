@@ -1,4 +1,4 @@
-import { toast } from 'react-toastify';
+import toast from './toastLogger'; 
 import React, { useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { getCookie, eraseCookie } from './CookieManager';
