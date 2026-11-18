@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import StoreCard from './StoreCard';
 import { getCookie } from './CookieManager';
@@ -51,8 +50,35 @@ const formatTimeTo12Hour = (timeStr) => {
   return `${h}:${m} ${ampm}`;
 };
 
+// Default hours to use if none are loaded from the server
+const defaultHours = {
+  monday: [
+    { open: "12:00 AM", close: "1:00 PM" },
+    { open: "8:30 PM", close: "12:00 AM" }
+  ],
+  tuesday: [
+    { open: "12:00 AM", close: "1:00 PM" },
+    { open: "8:30 PM", close: "12:00 AM" }
+  ],
+  wednesday: [
+    { open: "12:00 AM", close: "11:59 PM", _is24Hours: true }
+  ],
+  thursday: [
+    { open: "12:00 AM", close: "11:59 PM", _is24Hours: true }
+  ],
+  friday: [
+    { open: "12:00 AM", close: "11:59 PM", _is24Hours: true }
+  ],
+  saturday: [
+    { open: "12:00 AM", close: "11:59 PM", _is24Hours: true }
+  ],
+  sunday: [
+    { open: "12:00 AM", close: "1:00 PM" },
+    { open: "8:30 PM", close: "12:00 AM" }
+  ]
+};
+
 const StoreAdmin = () => {
-  const navigate = useNavigate();
   const [isEditing, setIsEditing] = useState(false);
   //const [isLoading, setIsLoading] = useState(true);
   const { isLoading, setIsLoading} = useLoading();
@@ -64,33 +90,6 @@ const StoreAdmin = () => {
     specialHours: ""
   });
   
-  // Default hours to use if none are loaded from the server
-  const defaultHours = {
-    monday: [
-      { open: "12:00 AM", close: "1:00 PM" },
-      { open: "8:30 PM", close: "12:00 AM" }
-    ],
-    tuesday: [
-      { open: "12:00 AM", close: "1:00 PM" },
-      { open: "8:30 PM", close: "12:00 AM" }
-    ],
-    wednesday: [
-      { open: "12:00 AM", close: "11:59 PM", _is24Hours: true }
-    ],
-    thursday: [
-      { open: "12:00 AM", close: "11:59 PM", _is24Hours: true }
-    ],
-    friday: [
-      { open: "12:00 AM", close: "11:59 PM", _is24Hours: true }
-    ],
-    saturday: [
-      { open: "12:00 AM", close: "11:59 PM", _is24Hours: true }
-    ],
-    sunday: [
-      { open: "12:00 AM", close: "1:00 PM" },
-      { open: "8:30 PM", close: "12:00 AM" }
-    ]
-  };
 
   // Fetch store info from backend
   useEffect(() => {
@@ -186,14 +185,14 @@ const StoreAdmin = () => {
     };
 
     fetchStoreInfo();
-  }, []);
+  }, [setIsLoading]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     
     // Handle time slot changes
     if (name.startsWith('hours.')) {
-      const [_, day, index, field] = name.split('.');
+      const [, day, index, field] = name.split('.');
       const slotIndex = parseInt(index, 10);
       
       setStoreInfo(prev => {

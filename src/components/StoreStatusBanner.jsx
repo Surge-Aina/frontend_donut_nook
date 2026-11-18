@@ -76,7 +76,7 @@ const StoreStatusBanner = () => {
     
     // Cleanup interval on component unmount
     return () => clearInterval(interval);
-  }, []);
+  }, [setIsLoading]);
 
   if (!isVisible) {
     return null;

@@ -16,7 +16,7 @@ const Auth = () => {
     password: ''
   });
   const [error, setError] = useState('');
-  const [loading, setLoading] = useState(false);
+  const [, setLoading] = useState(false);
 
   // Redirect if already logged in
   useEffect(() => {

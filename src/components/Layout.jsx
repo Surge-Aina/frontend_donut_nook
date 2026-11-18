@@ -10,7 +10,6 @@ const Layout = ({ children, container }) => {
   const location = useLocation();
   const token = getCookie('token');
   const name = getCookie('name');
-  const email = getCookie('email');
   const role = getCookie('role');
 
   const handleLogout = () => {
