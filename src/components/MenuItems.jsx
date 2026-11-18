@@ -15,7 +15,9 @@ const MenuItems = () => {
         name: '',
         price: 0,
         available: true,
-        category: ''
+        category: '',
+        description: '',
+        imageUrl: ''
     });
     const [specials, setSpecials] = useState([]);
     const [specialsLoading, setSpecialsLoading] = useState(true);
@@ -70,6 +72,8 @@ const MenuItems = () => {
             price: item.priceHistory[item.priceHistory?.length - 1].price,
             available: item.available,
             category: item.category,
+            description: item.description || '',
+            imageUrl: item.imageUrl || '',
         });
     };
 
@@ -98,14 +102,16 @@ const MenuItems = () => {
             name: newItem.name,
             category: newItem.category,
             available: newItem.available,
-            price: newItem.price
+            price: newItem.price,
+            description: newItem.description,
+            imageUrl: newItem.imageUrl
         });
         if (response.data && response.data.savedItem) {
                 setMenu([response.data.savedItem, ...menu]);
                 toast.success("Menu item added successfully!");
             }
         
-        setNewItem({ name: '', price: 0, available: true, category: '' });
+        setNewItem({ name: '', price: 0, available: true, category: '', description: '', imageUrl: '' });
         setShowAddForm(false);
         } catch (error) {
             console.error('Error adding item:', error);
@@ -167,6 +173,18 @@ const MenuItems = () => {
                             placeholder="Category"
                             value={newItem.category ?? ''}
                             onChange={(e) => setNewItem({ ...newItem, category: e.target.value })}
+                        />
+                        <textarea
+                            value={newItem.description ?? ''}
+                            onChange={(e) => setNewItem({ ...newItem, description: e.target.value })}
+                            placeholder="Description"
+                            rows={3}
+                        />
+                        <input
+                            type="text"
+                            value={newItem.imageUrl ?? ''}
+                            onChange={(e) => setNewItem({ ...newItem, imageUrl: e.target.value })}
+                            placeholder="Image URL"
                         />
                         <select
                             value={newItem.available ?? true}

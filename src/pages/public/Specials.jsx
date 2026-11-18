@@ -33,6 +33,20 @@ const Specials = () => {
     return new Date(dateString).toLocaleDateString();
   };
 
+  const isCurrentSpecial = (special) => {
+    const now = new Date();
+    const start = new Date(special.startDate);
+    const end = new Date(special.endDate);
+    return start <= now && now <= end;
+  };
+
+  const sortedSpecials = [...specials].sort((a, b) => {
+    const aCurrent = isCurrentSpecial(a);
+    const bCurrent = isCurrentSpecial(b);
+    if (aCurrent !== bCurrent) return aCurrent ? -1 : 1;
+    return new Date(b.endDate) - new Date(a.endDate);
+  });
+
   return (
     <Layout>
       <PageWrapper>
@@ -98,7 +112,7 @@ const Specials = () => {
               gap: '30px',
               padding: '20px 0'
             }}>
-              {specials.map((special) => (
+              {sortedSpecials.map((special) => (
                 <div
                   key={special._id}
                   style={{
@@ -135,7 +149,7 @@ const Specials = () => {
                     letterSpacing: '0.5px',
                     boxShadow: '0 2px 8px rgba(249, 115, 22, 0.3)'
                   }}>
-                    Special Offer
+                    {isCurrentSpecial(special) ? 'Special Offer' : 'Ended'}
                   </div>
 
                   {/* Special Content */}
