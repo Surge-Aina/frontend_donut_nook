@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Layout from '../../components/Layout';
 import { FiEdit2, FiTrash2, FiX } from 'react-icons/fi';
-import { motion } from 'framer-motion';
 import PageWrapper from '../../components/PageWrapper';
 import toast from '../../components/toastLogger';
 

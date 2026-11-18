@@ -1,6 +1,5 @@
 import Layout from '../../components/Layout';
 import MenuItems from '../../components/MenuItems';
-import { motion } from 'framer-motion';
 import PageWrapper from '../../components/PageWrapper';
 
 

@@ -2,7 +2,6 @@
 import React, { useState, useEffect } from 'react';
 import Layout from '../../components/Layout';
 import { specialsAPI } from '../../utils/api';
-import { motion } from 'framer-motion';
 import PageWrapper from '../../components/PageWrapper';
 
 
